@@ -8,7 +8,7 @@ import lombok.Data;
 public class Member {
     private Long id;            //아이디
     @NotBlank private String loginId;     //로그인 아이디
-    @NotBlank private String name;        //이름
+    private String name;        //이름
     @NotBlank private String password;    //비밀번호
     private String birthDay;    //생년월일
     private String joinDay;     //가입 날짜

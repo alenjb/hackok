@@ -1,5 +1,6 @@
 package com.cobin.hackok.domain;
 
+import com.cobin.hackok.domain.member.domain.MemberGrade;
 import com.cobin.hackok.domain.member.dto.Member;
 import com.cobin.hackok.domain.member.repository.MemberRepository;
 import jakarta.annotation.PostConstruct;
@@ -16,10 +17,7 @@ public class TestDataInit {
      */
     @PostConstruct
     public void init() {
-        Member member = new Member();
-        member.setLoginId("aaaa@aaa.com");
-        member.setPassword("1111");
-        member.setName("테스터");
+        Member member = new Member(1L, "aaaa@aaa.com","테스터1", "1111", "26/08/24", "01/01/24", MemberGrade.BASIC);
         memberRepository.save(member);
     }
 

@@ -7,10 +7,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 @Slf4j
 @Controller
 public class MemberLoginController {
@@ -29,7 +27,7 @@ public class MemberLoginController {
 
     //1-2. 로그인 실행
     @PostMapping("/login")
-    public String doLogin(@RequestParam Member member, HttpServletRequest request, @RequestParam(defaultValue = "/") String redirectURL){
+    public String doLogin(@ModelAttribute Member member, HttpServletRequest request, @RequestParam(defaultValue = "/") String redirectURL){
         Member loginResult = service.login(member);
         if (loginResult == null){ // 로그인에 실패한 경우
            return "login/loginForm";
@@ -37,6 +35,7 @@ public class MemberLoginController {
         // 로그인이 성공한 경우
         HttpSession session = request.getSession();
         session.setAttribute("loginMember", loginResult);
+        log.info("로그인 성공");
 
         return "redirect:" + redirectURL;
     }

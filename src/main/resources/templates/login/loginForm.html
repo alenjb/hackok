@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
 	<title>Booking - Multipurpose Online Booking Theme</title>
 
@@ -119,14 +119,14 @@ Main Content START -->
 								</a>
 								<!-- Title -->
 								<h1 class="mb-2 h4 korean-font-extra-bold">핵콕으로 시간을 절약하세요</h1>
-								<p class="mb-0 korean-font">첫 방문이신가요?<a href="sign-up.html" class="korean-font-heavy"> 회원가입</a></p>
+								<p class="mb-0 korean-font">첫 방문이신가요?<a href="/signup" class="korean-font-heavy"> 회원가입</a></p>
 		
 								<!-- Form START -->
-								<form class="mt-4 text-start">
+								<form class="mt-4 text-start" action="doLogin" th:action method="post">
 									<!-- Email -->
 									<div class="mb-3">
 										<label class="form-label korean-font">아이디를 입력하세요</label>
-										<input type="text" class="form-control" id="loginId" name="loginId">
+										<input type="email" class="form-control korean-font" id="loginId" name="loginId" placeholder="ex) hello@hello.com">
 									</div>
 									<!-- Password -->
 									<div class="mb-3 position-relative">

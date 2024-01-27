@@ -1,9 +1,10 @@
 package com.cobin.hackok.domain.member.repository;
 
 import com.cobin.hackok.domain.member.dto.Member;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
-
+@Repository
 public class MemberRepositoryImpl implements MemberRepository{
     private static final Map<Long, Member> store = new HashMap<>(); //static 사용
     private static long sequence = 0L;//static 사용

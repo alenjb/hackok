@@ -7,7 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MemberServiceImpl implements MemberService{
-    MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+
+    @Autowired
+    public MemberServiceImpl(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     @Override
     public boolean signup(Member member) {
@@ -17,6 +22,11 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member login(Member member) {
-        return null;
+        /*
+         *로그인에 실패하면 null을 반환
+         */
+        return memberRepository.findByLoginId(member.getLoginId())
+                .filter(m -> m.getPassword().equals(member.getPassword()))
+                .orElse(null);
     }
 }

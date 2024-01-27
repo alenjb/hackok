@@ -2,7 +2,10 @@ package com.cobin.hackok.domain.member.controller;
 
 import com.cobin.hackok.domain.member.dto.Member;
 import com.cobin.hackok.domain.member.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 @Controller
 public class MemberLoginController {
-    MemberService service;
+    private final MemberService service;
+    @Autowired
+    public MemberLoginController(MemberService service) {
+        this.service = service;
+    }
     //1. 로그인
 
     // 1-1. 로그인 폼
@@ -22,9 +29,16 @@ public class MemberLoginController {
 
     //1-2. 로그인 실행
     @PostMapping("/login")
-    public String doLogin(Member member){
-        service.login(member);
-        return "index";
+    public String doLogin(@RequestParam Member member, HttpServletRequest request, @RequestParam(defaultValue = "/") String redirectURL){
+        Member loginResult = service.login(member);
+        if (loginResult == null){ // 로그인에 실패한 경우
+           return "login/loginForm";
+        }
+        // 로그인이 성공한 경우
+        HttpSession session = request.getSession();
+        session.setAttribute("loginMember", loginResult);
+
+        return "redirect:" + redirectURL;
     }
 
     //2. 회원가입
@@ -38,8 +52,10 @@ public class MemberLoginController {
     //1-2. 회원가입 실행
     @PostMapping("/signup")
     public String doSignup(Member member){
-        service.signup(member);
-        return "redirec:login";
+        boolean doSignup = service.signup(member);
+        if(doSignup) log.info("회원가입 완료");
+
+        return "redirect:login";
     }
     //3. 아이디 찾기
     //4. 비밀번호 찾기

@@ -2,9 +2,11 @@ package com.cobin.hackok.domain.member.dto;
 
 import com.cobin.hackok.domain.member.domain.MemberGrade;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class Member {
     private Long id;            //아이디
     @NotBlank private String loginId;     //로그인 아이디

@@ -27,18 +27,27 @@ public class MemberRepositoryImpl implements MemberRepository{
         store.remove(member.getId());
     }
 
-
-    public Member findById(Long id) {
-        return store.get(id);
+    @Override
+    public Optional<Member> findById(Long id) {
+        return findAll().stream()
+                .filter(m -> m.getId().equals(id))
+                .findFirst();
     }
 
+    @Override
     public Optional<Member> findByLoginId(String loginId) {
         return findAll().stream()
                 .filter(m -> m.getLoginId().equals(loginId))
                 .findFirst();
     }
-
+    @Override
     public List<Member> findAll() {
         return new ArrayList<>(store.values());
+    }
+
+    // 테스트를 위한 기능
+    @Override
+    public void clean(){
+        store.clear();
     }
 }

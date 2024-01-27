@@ -11,8 +11,10 @@ public interface MemberRepository {
     Member update(Member member);    // 회원 수정(정보 변경시)
     void delete(Member member);    // 회원 탈퇴
 
-    Member findById(Long id);    // 고유 아이디로 검색
+    Optional<Member> findById(Long id);    // 고유 아이디로 검색
     Optional<Member> findByLoginId(String loginId);    // 로그인 아이디로 검색
     List<Member> findAll();    // 모두 검색
+
+    void clean(); // 레포지토리 내의 값 모두 제거
 
 }

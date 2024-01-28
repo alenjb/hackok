@@ -1,13 +1,16 @@
 package com.cobin.hackok.domain.member.repository;
 
 import com.cobin.hackok.domain.member.dto.Member;
+import lombok.Getter;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 @Repository
 public class MemberRepositoryImpl implements MemberRepository{
     private static final Map<Long, Member> store = new HashMap<>(); //static 사용
-    private static long sequence = 0L;//static 사용
+
+    @Getter
+    private long sequence = 0L; //static 사용
 
     public Member save(Member member) {
         member.setId(++sequence);
@@ -16,10 +19,9 @@ public class MemberRepositoryImpl implements MemberRepository{
     }
 
     @Override
-    public Member update(Member member) {
-        Member findMember = store.get(member.getId());
-        store.replace(member.getId(), findMember, member);
-        return member;
+    public Member update(Member oldMember, Member updatedMember) {
+        store.replace(oldMember.getId(), oldMember, updatedMember);
+        return updatedMember;
     }
 
     @Override
@@ -50,4 +52,6 @@ public class MemberRepositoryImpl implements MemberRepository{
     public void clean(){
         store.clear();
     }
+
+
 }

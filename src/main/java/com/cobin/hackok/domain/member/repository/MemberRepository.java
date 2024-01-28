@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface MemberRepository {
 
     Member save(Member member);    // 회원 저장
-    Member update(Member member);    // 회원 수정(정보 변경시)
+    Member update(Member oldMember, Member updatedMember);    // 회원 수정(정보 변경시)
     void delete(Member member);    // 회원 탈퇴
 
     Optional<Member> findById(Long id);    // 고유 아이디로 검색

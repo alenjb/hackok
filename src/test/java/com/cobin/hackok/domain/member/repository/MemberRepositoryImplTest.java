@@ -44,14 +44,14 @@ class MemberRepositoryImplTest {
     @Test
     void update() {
         //given
-        Optional<Member> findMember = repository.findById(1L);
-        Member updateMember = new Member(2L, "b@aaa.com", "테스터1", "1111", "26/08/24", "01/01/24", MemberGrade.BASIC);
+        Member findMember = repository.findById(1L).get();
+        Member updateMember = new Member(1L, "update@aaa.com", "테스터1", "1111", "26/08/24", "01/01/24", MemberGrade.BASIC);
 
         //when
-        repository.update(updateMember);
+        repository.update(findMember, updateMember);
 
         //then
-        assertThat(repository.findById(2L)).isEqualTo((updateMember));
+        assertThat(repository.findByLoginId("update@aaa.com")).isEqualTo((Optional.of(updateMember)));
     }
 
     @Test
@@ -71,14 +71,15 @@ class MemberRepositoryImplTest {
     @Test
     void findById() {
         //given
-        Member member3 = new Member(3L, "aaaa@aaa.com","테스터1", "1111", "26/08/24", "01/01/24", MemberGrade.BASIC);
+        long id = ((MemberRepositoryImpl) repository).getSequence() + 1; // 현재 저장 시 부여되는 id 값
+        Member member3 = new Member(id, "member3@naver.com","테스터1", "1111", "26/08/24", "01/01/24", MemberGrade.BASIC);
         repository.save(member3);
 
         //when
-        Optional<Member> findMember = repository.findById(3L);
+        Optional<Member> findMember = repository.findById(id);
 
         //then
-        assertThat(findMember).isEqualTo(member3);
+        assertThat(findMember).isEqualTo(Optional.of(member3));
     }
 
     @Test

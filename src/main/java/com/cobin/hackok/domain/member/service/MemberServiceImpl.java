@@ -5,6 +5,8 @@ import com.cobin.hackok.domain.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
@@ -28,5 +30,11 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findByLoginId(member.getLoginId())
                 .filter(m -> m.getPassword().equals(member.getPassword()))
                 .orElse(null);
+    }
+
+    @Override
+    public Optional<Member> findPasswordByLoginId(String loginId) {
+        Optional<Member> findMember = memberRepository.findByLoginId(loginId);
+        return findMember;
     }
 }

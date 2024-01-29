@@ -60,25 +60,22 @@ public class MemberLoginController {
         return "redirect:login";
     }
 
-    //3. 아이디 찾기
 
-    //4. 비밀번호 찾기
+    //3. 비밀번호 찾기
 
-    //4-1. 비밀번호 찾기 폼
+    //3-1. 비밀번호 찾기 폼
     @GetMapping("/forgotpassword")
     public String forgotPasswordForm(){
         return "login/forgotPasswordForm";
     }
 
-    //4-2. 비밀번호 찾기 실행
+    //3-2. 비밀번호 찾기 실행
     @PostMapping("/forgotpassword")
-    public String findPassword(@RequestParam(name = "loginId") String loginId, Model model){
-
-        Optional<Member> findMember = service.findPasswordByLoginId(loginId);
+    public String findPassword(@RequestParam(name = "loginId") String loginId, @RequestParam(name = "name") String name, Model model){
+        Optional<Member> findMember = service.findPasswordByLoginIdAndName(loginId, name);
         if(findMember.isPresent()) model.addAttribute("password", findMember.get().getPassword());
         return "login/noticePasswordForm";
     }
 
-    //5. 회원 탈퇴
 
 }

@@ -33,8 +33,13 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public Optional<Member> findPasswordByLoginId(String loginId) {
+    public Optional<Member> findPasswordByLoginIdAndName(String loginId, String name) {
         Optional<Member> findMember = memberRepository.findByLoginId(loginId);
+        if(findMember.isPresent()){
+            String findName = findMember.get().getName();
+            if(findName.equals(name)) return findMember;
+            return Optional.empty();
+        }
         return findMember;
     }
 }

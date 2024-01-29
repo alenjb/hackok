@@ -7,7 +7,10 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -48,7 +51,7 @@ public class MemberLoginController {
         return "login/signupForm";
     }
 
-    //1-2. 회원가입 실행
+    //2-2. 회원가입 실행
     @PostMapping("/signup")
     public String doSignup(Member member){
         boolean doSignup = service.signup(member);
@@ -56,8 +59,26 @@ public class MemberLoginController {
 
         return "redirect:login";
     }
+
     //3. 아이디 찾기
+
     //4. 비밀번호 찾기
+
+    //4-1. 비밀번호 찾기 폼
+    @GetMapping("/forgotpassword")
+    public String forgotPasswordForm(){
+        return "login/forgotPasswordForm";
+    }
+
+    //4-2. 비밀번호 찾기 실행
+    @PostMapping("/forgotpassword")
+    public String findPassword(@RequestParam(name = "loginId") String loginId, Model model){
+
+        Optional<Member> findMember = service.findPasswordByLoginId(loginId);
+        if(findMember.isPresent()) model.addAttribute("password", findMember.get().getPassword());
+        return "login/noticePasswordForm";
+    }
+
     //5. 회원 탈퇴
 
 }

@@ -19873,7 +19873,8 @@ body.dashboard main {
   display: none;
 }
 
-@media (max-width: 575.98px) {
+/*@media (max-width: 575.98px) {*/
+  @media (max-width: 5000px) { /* 모든 환경에서 작동되도록 임의로 최대 5000px로 잡음*/
   .navbar-mobile {
     display: block;
     background-color: var(--bs-mode);
@@ -19885,7 +19886,7 @@ body.dashboard main {
     -webkit-transform: translateX(-50%);
             transform: translateX(-50%);
     z-index: 99999;
-    padding: 0.5rem 2rem;
+    padding: 1rem 2rem;
     -webkit-box-shadow: 0 1rem 3rem rgba(29, 58, 83, 0.5);
             box-shadow: 0 1rem 3rem rgba(29, 58, 83, 0.5);
   }

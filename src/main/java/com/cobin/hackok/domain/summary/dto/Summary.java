@@ -14,6 +14,7 @@ public class Summary {
     private String userId;              // 사용자의 아이디
     @NotBlank
     private String rawText;             // 사용자가 입력한 요약 전 텍스트
+    private String title;               // 제목
     @NotBlank
     private List<String> keywords;      // 핵심 키워드들
     @NotBlank

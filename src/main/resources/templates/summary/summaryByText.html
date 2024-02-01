@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+ 
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+		    var el = document.querySelector('.theme-icon-active');
+			if(el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+				const activeThemeIcon = document.querySelector('.theme-icon-active use')
+				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+					element.classList.remove('active')
+				})
+
+				btnToActive.classList.add('active')
+				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+			}
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+				if (storedTheme !== 'light' || storedTheme !== 'dark') {
+					setTheme(getPreferredTheme())
+				}
+			})
+
+			showActiveTheme(getPreferredTheme())
+
+			document.querySelectorAll('[data-bs-theme-value]')
+				.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const theme = toggle.getAttribute('data-bs-theme-value')
+						localStorage.setItem('theme', theme)
+						setTheme(theme)
+						showActiveTheme(theme)
+					})
+				})
+
+			}
+		})
+		
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../assets/images/favicon.ico">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/font-awesome/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/bootstrap-icons/bootstrap-icons.css">
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/choices/css/choices.min.css">
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/flatpickr/css/flatpickr.min.css">
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/stepper/css/bs-stepper.min.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+
+</head>
+
+<body>
+
+<!-- Header START -->
+<header class="navbar-light header-sticky">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-expand-xl">
+		<div class="container">
+			<!-- Logo START -->
+			<a class="navbar-brand" href="#">
+				<img class="light-mode-item navbar-brand-item" src="../assets/images/logo.svg" alt="logo">
+				<img class="dark-mode-item navbar-brand-item" src="../assets/images/logo-light.svg" alt="logo">
+			</a>
+			<!-- Logo END -->
+
+			<!-- Buttons START -->
+			<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+
+				<!-- Download app -->
+				<li class="nav-item align-items-center d-none d-sm-flex position-relative me-sm-3">
+					<!-- Icon -->
+					<a href="#" class="icon-md btn btn-light mb-0 p-0 flex-shrink-0"><i class="bi bi-cloud-download-fill"></i></a>
+					<div class="ms-2 d-none d-md-block">
+						<h6 class="mb-0"><a href="#" class="stretched-link korean-font-bold">앱 다운로드</a></h6>
+						<p class="small mb-0 text-body korean-font-bold">어플리케이션을 설치하여 더 나은 경험을 해보세요</p>
+					</div>
+				</li>
+				<!-- Login button START -->
+				<li class="nav-item ms-3">
+					<a href="sign-up.html" class="btn btn-sm btn-primary mb-0 korean-font-bold"><i class="fa-solid fa-right-to-bracket me-2"></i>로그아웃</a>
+				</li>
+				<!-- Login button END -->
+			</ul>
+			<!-- Buttons START -->
+
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+	
+<!-- =======================
+Page Banner START -->
+<section class="py-0">
+	<div class="container">
+		<div class="row mt-4 align-items-center">
+			<div class="col-12">
+				<!-- Card START -->
+				<div class="card bg-light overflow-hidden px-sm-5">
+					<div class="row align-items-center g-4">
+
+						<!-- Content -->
+						<div class="col-sm-9">
+							<div class="card-body">
+								<!-- Title -->
+								<h1 class="m-0 h2 card-title korean-font-bold">텍스트 핵콕</h1>
+								<h2 class="m-0 h5 card-title korean-font-bold" style="padding-top: 20px">간편한 요약을 경험하세요</h2>
+							</div>
+						</div>	
+
+						<!-- Image -->
+						<div class="col-sm-3 text-end d-none d-sm-block">
+							<img src="../assets/images/element/17.svg" class="mb-n4" alt="">
+						</div>
+					</div>
+				</div>
+				<!-- Card END -->
+			</div>
+		</div>
+	</div>
+</section>
+<!-- =======================
+Page Banner END -->
+
+<!-- =======================
+Steps START -->
+<section style="padding-top: 20px">
+	<div class="container">
+		<div id="stepper" class="bs-stepper stepper-outline">
+			<!-- Step Buttons START -->
+			<div class="bs-stepper-header" role="tablist">
+				<!-- Step 1 -->
+				<div class="step" data-target="#step-1">
+					<div class="text-center">
+						<button type="button" class="btn btn-link step-trigger mb-0" role="tab" id="steppertrigger1" aria-controls="step-1">
+							<span class="bs-stepper-circle kore">1</span>
+						</button>
+						<h6 class="bs-stepper-label d-none d-md-block korean-font-heavy">텍스트 입력</h6>
+					</div>
+				</div>
+				<div class="line"></div>
+
+
+				<!-- Step 3 -->
+				<div class="step" data-target="#step-3">
+					<div class="text-center">
+						<button type="button" class="btn btn-link step-trigger mb-0" role="tab" id="steppertrigger3" aria-controls="step-3">
+							<span class="bs-stepper-circle">2</span>
+						</button>
+						<h6 class="bs-stepper-label d-none d-md-block korean-font-heavy">요약 결과</h6>
+					</div>
+				</div>
+			</div>
+			<!-- Step Buttons END -->
+
+			<!-- Step content START -->
+			<div class="bs-stepper-content p-0 pt-4">
+				<div class="row g-4">
+
+					<!-- Main content START -->
+					<div class="col-xl-12">
+						<form onsubmit="return false">
+
+							<!-- Step 1 content START -->
+							<div id="step-1" role="tabpanel" class="content fade" aria-labelledby="steppertrigger1">
+								<div class="vstack gap-4">
+
+									<!-- Hotel detail START -->
+									<div class="card border">
+										<!-- Card header -->
+										<div class="card-header border-bottom d-flex justify-content-between">
+											<!-- Title -->
+											<input class="form-control border-0 korean-font-heavy" type="text" placeholder="제목" style="font-size: 25px; padding-left: 0px;">
+										</div>
+
+										<!-- Card body START -->
+										<div class="card-body" style="padding-top: 20px; padding-bottom: 0px;">
+											<!-- Hotel item START -->
+											<div class="row" >
+												<textarea class="form-control korean-font-bold" style="border:none ; resize: none;" rows="10" placeholder="요약을 원하는 내용을 입력하세요"></textarea>
+<!--												<input type="text" class="form-control form-control-lg">-->
+											</div>
+											<!-- Hotel item END -->
+										</div>
+										<!-- Card body END -->
+									</div>
+									<!-- Hotel detail END -->
+
+<!--									&lt;!&ndash; Cab detail START &ndash;&gt;-->
+<!--									<div class="card border">-->
+<!--										&lt;!&ndash; Card header &ndash;&gt;-->
+<!--										<div class="card-header border-bottom d-flex justify-content-between">-->
+<!--											&lt;!&ndash; Title &ndash;&gt;-->
+<!--											<h5 class="mb-0">Transfer Details</h5>-->
+<!--											<a href="#" class="btn btn-link p-0 mb-0 text-primary-hover text-reset text-decoration-underline">View details</a>-->
+<!--										</div>-->
+
+<!--										&lt;!&ndash; Card body START &ndash;&gt;-->
+<!--										<div class="card-body">-->
+<!--											<div class="d-flex gap-1 justify-content-between flex-wrap">-->
+<!--												&lt;!&ndash; Title &ndash;&gt;-->
+<!--												<h6 class="mb-0">Private Transfer</h6>-->
+<!--												&lt;!&ndash; Info &ndash;&gt;-->
+<!--												<p class="mb-0">Vehicle type: <span class="h6 fw-light">Sedan - AC</span></p>-->
+<!--												&lt;!&ndash; Date &ndash;&gt;-->
+<!--												<h6 class="mb-0 fw-normal">12 April 2022</h6>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--										&lt;!&ndash; Card body END &ndash;&gt;-->
+<!--									</div>-->
+<!--									&lt;!&ndash; Cab detail END &ndash;&gt;-->
+
+									<!-- Step 1 button -->
+									<div class="text-end">
+										<button class="btn btn-primary next-btn mb-0 korean-font-bold">핵콕하기</button>
+									</div>
+								</div>
+							</div>
+							<!-- Step 1 content END -->
+
+							<!-- Step 3 content START -->
+							<div id="step-3" role="tabpanel" class="content fade" aria-labelledby="steppertrigger3">
+								<div class="vstack gap-4">
+									<!-- Title -->
+									<h4 class="mb-0">Payment options</h4>
+
+									<hr class="my-0"> <!-- Divider -->
+
+									<!-- Credit or Debit Card START -->
+									<div class="card border">
+										<!-- Card header -->
+										<div class="card-header border-bottom d-sm-flex justify-content-between align-items-center">
+											<h5 class="mb-2 mb-sm-0">Credit or Debit Card</h5>
+											<ul class="list-inline my-0">
+												<li class="list-inline-item"> <a href="#"><img src="../assets/images/element/visa.svg" class="h-30px" alt=""></a></li>
+												<li class="list-inline-item"> <a href="#"><img src="../assets/images/element/mastercard.svg" class="h-30px" alt=""></a></li>
+												<li class="list-inline-item"> <a href="#"><img src="../assets/images/element/expresscard.svg" class="h-30px" alt=""></a></li>
+											</ul>
+										</div>
+
+										<!-- Card body -->
+										<div class="card-body">
+											<div class="row g-4">
+												<!-- Card number -->
+												<div class="col-12">
+													<label class="form-label">Card Number</label>
+													<div class="position-relative form-control-bg-light">
+														<input type="text" class="form-control" maxlength="14" placeholder="XXXX XXXX XXXX XXXX">
+														<img src="../assets/images/element/visa.svg" class="w-30px position-absolute top-50 end-0 translate-middle-y me-2 d-none d-sm-block" alt="">
+													</div>	
+												</div>
+
+												<!-- Expiration Month -->
+												<div class="col-md-4">
+													<label class="form-label">Expiration Month</label>
+													<div class="form-control-bg-light">
+														<input type="text" class="form-control" maxlength="2">
+													</div>
+												</div>
+
+												<!-- Expiration Year -->
+												<div class="col-md-4">
+													<label class="form-label">Expiration Year</label>
+													<div class="form-control-bg-light">
+														<input type="text" class="form-control" maxlength="4">
+													</div>
+												</div>
+
+												<!-- Cvv/CVC -->
+												<div class="col-md-4">
+													<label class="form-label">CVV / CVC</label>
+													<div class="form-control-bg-light">
+														<input type="text" class="form-control" maxlength="3" placeholder="XXX">
+													</div>
+												</div>
+
+												<!-- Card holder name -->
+												<div class="col-12">
+													<label class="form-label">Name of the cardholder</label>
+													<div class="form-control-bg-light">
+														<input type="text" class="form-control" aria-label="name of the cardholder">
+													</div>	
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- Credit or Debit Card END -->
+
+									<!-- Paypal START -->
+									<div class="card border">
+										<!-- Card header -->
+										<div class="card-header border-bottom">
+											<h5 class="mb-0">Pay with Paypal</h5>
+										</div>
+
+										<!-- Card body -->
+										<div class="card-body text-center">
+											<!-- Image -->
+											<img src="../assets/images/element/paypal.svg" class="h-70px mb-3" alt="">
+											<p class="mb-3"><strong>Tips:</strong> Simply click on the payment button below to proceed to the PayPal payment page.</p>
+
+											<!-- Button -->
+											<a href="#" class="btn btn-sm btn-outline-primary mb-0">Pay with Paypal</a>
+										</div>
+									</div>
+									<!-- Paypal END -->
+
+									<!-- Step 3 button -->
+									<div class="d-flex justify-content-between">
+										<button class="btn btn-secondary prev-btn mb-0">Previous</button>
+										<button class="btn btn-success next-btn mb-0">Pay now</button>
+									</div>
+								</div>
+							</div>
+							<!-- Step 3 content END -->
+
+						</form>
+					</div>
+					<!-- Main content END -->
+
+				</div>
+						
+			</div>
+			<!-- Step content END -->
+		</div>
+	</div>
+</section>
+<!-- =======================
+Steps END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer class="bg-dark pt-5">
+	<div class="container">
+		<!-- Row START -->
+		<div class="row g-4">
+
+			<!-- Widget 1 START -->
+			<div class="col-lg-3">
+				<!-- logo -->
+				<a href="../../../../../../../../../Downloads/booking_v1.2.0/booking_v1.2.0/template/index.html">
+					<img class="h-40px" src="../assets/images/logo-light.svg" alt="logo">
+				</a>
+				<p class="my-3 text-muted">Departure defective arranging rapturous did believe him all had supported.</p>
+				<p class="mb-2"><a href="#" class="text-muted text-primary-hover"><i class="bi bi-telephone me-2"></i>+1234 568 963</a> </p>
+				<p class="mb-0"><a href="#" class="text-muted text-primary-hover"><i class="bi bi-envelope me-2"></i>example@gmail.com</a></p>
+			</div>
+			<!-- Widget 1 END -->
+
+			<!-- Widget 2 START -->
+			<div class="col-lg-8 ms-auto">
+				<div class="row g-4">
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Page</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-muted" href="#">About us</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">Contact us</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">News and Blog</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">Meet a Team</a></li>
+						</ul>
+					</div>
+
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Link</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-muted" href="#">Sign up</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">Sign in</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">Privacy Policy</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">Terms</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">Cookie</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">Support</a></li>
+						</ul>
+					</div>
+									
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Global Site</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-muted" href="#">India</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">California</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">Indonesia</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">Canada</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#">Malaysia</a></li>
+						</ul>
+					</div>
+
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Booking</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-muted" href="#"><i class="fa-solid fa-hotel me-2"></i>Hotel</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#"><i class="fa-solid fa-plane me-2"></i>Flight</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#"><i class="fa-solid fa-globe-americas me-2"></i>Tour</a></li>
+							<li class="nav-item"><a class="nav-link text-muted" href="#"><i class="fa-solid fa-car me-2"></i>Cabs</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- Widget 2 END -->
+
+		</div><!-- Row END -->
+
+		<!-- Tops Links -->
+		<div class="row mt-5">
+			<h5 class="mb-2 text-white">Top Links</h5>
+			<ul class="list-inline text-primary-hover lh-lg">
+				<li class="list-inline-item"><a href="#" class="text-muted">Flights</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Hotels</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Tours</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Cabs</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">About</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Contact us</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Blogs</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Services</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Detail page</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Services</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Policy</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Testimonials</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Newsletters</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Podcasts</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Protests</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">NewsCyber</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Education</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Sports</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Tech and Auto</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Opinion</a></li>
+				<li class="list-inline-item"><a href="#" class="text-muted">Share Market</a></li>
+			</ul>
+		</div>
+
+		<!-- Payment and card -->
+		<div class="row g-4 justify-content-between mt-0 mt-md-2">
+
+			<!-- Payment card -->
+			<div class="col-sm-7 col-md-6 col-lg-4">
+				<h5 class="text-white mb-2">Payment & Security</h5>
+				<ul class="list-inline mb-0 mt-3">
+					<li class="list-inline-item"> <a href="#"><img src="../assets/images/element/paypal.svg" class="h-30px" alt=""></a></li>
+					<li class="list-inline-item"> <a href="#"><img src="../assets/images/element/visa.svg" class="h-30px" alt=""></a></li>
+					<li class="list-inline-item"> <a href="#"><img src="../assets/images/element/mastercard.svg" class="h-30px" alt=""></a></li>
+					<li class="list-inline-item"> <a href="#"><img src="../assets/images/element/expresscard.svg" class="h-30px" alt=""></a></li>
+				</ul>
+			</div>
+
+			<!-- Social media icon -->
+			<div class="col-sm-5 col-md-6 col-lg-3 text-sm-end">
+				<h5 class="text-white mb-2">Follow us on</h5>
+				<ul class="list-inline mb-0 mt-3">
+					<li class="list-inline-item"> <a class="btn btn-sm px-2 bg-facebook mb-0" href="#"><i class="fab fa-fw fa-facebook-f"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="#"><i class="fab fa-fw fa-instagram"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-twitter mb-0" href="#"><i class="fab fa-fw fa-twitter"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-linkedin mb-0" href="#"><i class="fab fa-fw fa-linkedin-in"></i></a> </li>
+				</ul>	
+			</div>
+		</div>
+
+		<!-- Divider -->
+		<hr class="mt-4 mb-0">
+
+		<!-- Bottom footer -->
+		<div class="row">
+			<div class="container">
+				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+					<!-- copyright text -->
+					<div class="text-muted text-primary-hover"> Copyrights ©2023 Booking. Build by <a href="https://www.webestica.com/" class="text-muted">Webestica</a>. </div>
+					<!-- copyright links-->
+					<div class="nav mt-2 mt-lg-0">
+						<ul class="list-inline text-primary-hover mx-auto mb-0">
+							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Privacy policy</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Terms and conditions</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted pe-0" href="#">Refund policy</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top"></div>
+
+<!-- Bootstrap JS -->
+<script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendors -->
+<script src="../assets/vendor/choices/js/choices.min.js"></script>
+<script src="../assets/vendor/flatpickr/js/flatpickr.min.js"></script>
+<script src="../assets/vendor/stepper/js/bs-stepper.min.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../assets/js/functions.js"></script>
+
+</body>
+</html>

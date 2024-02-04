@@ -78,4 +78,12 @@ public class MemberLoginController {
     }
 
 
+    //4. 로그아웃
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();  // 세션 무효화
+        return "login/loginForm";
+    }
+
+
 }

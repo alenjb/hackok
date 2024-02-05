@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### api 설정 정보 ###
+src/main/java/com/cobin/hackok/domain/global/config/IdConfig.java

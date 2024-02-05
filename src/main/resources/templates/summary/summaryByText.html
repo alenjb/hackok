@@ -90,7 +90,52 @@
 
 
 </head>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+	$(document).ready(function() {
+		// id가 "hackok"인 버튼 클릭 이벤트 핸들러
+		$("#hackok").click(function() {
+			// 제목과 내용 가져오기
+			var titleValue = $("#title").val();
+			var contentValue = $("#content").val();
 
+			// AJAX 호출
+			$.ajax({
+				type: "POST",
+				url: "/summarize/ajax",
+				contentType: "application/json",
+				data: JSON.stringify({
+					document: {
+						title: titleValue,
+						content: contentValue,
+					},
+					option: {
+						language: "ko",
+						model: "news",
+						tone: 2,
+						summaryCount: 3,
+					},
+				}),
+				success: function(response) {
+					console.log(response);
+
+					// 요청에 보낸 title 부분을 id가 "summary-title"인 요소에 넣기
+					$("#summary-title").text(titleValue);
+
+					// 요청에 보낸 content 부분을 id가 "request-content"인 요소에 넣기
+					$("#request-content").text(contentValue);
+
+					// 응답 중 summary 부분을 id가 "summary-content"인 요소에 넣기
+					$("#summary-content").html("<h6 class='korean-font-bold'>" + response.summary + "</h6>");
+				},
+				error: function(error) {
+					console.error("에러:", error);
+				},
+			});
+		});
+	});
+
+</script>
 <body>
 
 <!-- Header START -->
@@ -204,7 +249,8 @@ Steps START -->
 
 					<!-- Main content START -->
 					<div class="col-xl-12">
-						<form onsubmit="return false">
+<!--						<form onsubmit="return false">-->
+						<form action="summarize" method="post" onsubmit="return false">
 
 							<!-- Step 1 content START -->
 							<div id="step-1" role="tabpanel" class="content fade" aria-labelledby="steppertrigger1">
@@ -215,14 +261,14 @@ Steps START -->
 										<!-- Card header -->
 										<div class="card-header border-bottom d-flex justify-content-between">
 											<!-- Title -->
-											<input class="form-control border-0 korean-font-heavy" type="text" placeholder="제목" style="font-size: 25px; padding-left: 0px;">
+											<input class="form-control border-0 korean-font-heavy" type="text" placeholder="제목" style="font-size: 25px; padding-left: 0px;" id="title">
 										</div>
 
 										<!-- Card body START -->
 										<div class="card-body" style="padding-top: 20px; padding-bottom: 0px;">
 											<!-- Hotel item START -->
 											<div class="row" >
-												<textarea class="form-control korean-font-bold" style="border:none ; resize: none;" rows="10" placeholder="요약을 원하는 내용을 입력하세요"></textarea>
+												<textarea class="form-control korean-font-bold" style="border:none ; resize: none;" rows="10" placeholder="요약을 원하는 내용을 입력하세요" id="content"></textarea>
 <!--												<input type="text" class="form-control form-control-lg">-->
 											</div>
 											<!-- Hotel item END -->
@@ -257,7 +303,7 @@ Steps START -->
 
 									<!-- Step 1 button -->
 									<div class="text-end">
-										<button class="btn btn-primary next-btn mb-0 korean-font-bold">핵콕하기</button>
+										<button class="btn btn-primary next-btn mb-0 korean-font-bold" id="hackok">핵콕하기</button>
 									</div>
 								</div>
 							</div>
@@ -275,7 +321,7 @@ Steps START -->
 									<div class="card border">
 										<!-- Card header -->
 										<div class="card-header border-bottom d-sm-flex justify-content-between align-items-center">
-											<h5 class="mb-2 mb-sm-0 korean-font-bold">요약 제목</h5>
+											<h5 class="mb-2 mb-sm-0 korean-font-bold" id="summary-title">요약 제목</h5>
 										</div>
 
 										<!-- Card body -->
@@ -283,7 +329,7 @@ Steps START -->
 											<div class="row g-4">
 												<!-- Card number -->
 												<div class="col-12">
-													<h6 class="korean-font-bold">이 대표는 당초 지난달 2일 <mark class="korean-font-bold"><a href="#keyword1">당내에선</a></mark>새해 인사 차원에서 문 전 대통령을 예방하려고 했지만, 방문 직전 부산 가덕도신공항 건설 예정지에서 괴한에게 흉기 피습을 당해 일정이 취소됐다.
+													<h6 class="korean-font-bold" id="summary-content">이 대표는 당초 지난달 2일 <mark class="korean-font-bold"><a href="#keyword1">당내에선</a></mark>새해 인사 차원에서 문 전 대통령을 예방하려고 했지만, 방문 직전 부산 가덕도신공항 건설 예정지에서 괴한에게 흉기 피습을 당해 일정이 취소됐다.
 														당시에도 당내 계파 갈등 해소가 주요 주제가 될 것으로 전망됐던 만큼, <mark class="korean-font-bold"><a href="#keyword2">키워드2</a></mark>이번 예방 자리에선 '통합·단합' 메시지가 주를 이뤘다.</h6>
 												</div>
 											</div>
@@ -319,7 +365,7 @@ Steps START -->
 
 										<!-- Card body -->
 										<div class="card-body text-center">
-											<p class="mb-3 korean-font-bold">실제 공천을 둘러싼 계파 갈등이 심화되는 모양새다. 친명계 자객공천은 물론 원외 친명 조직은 문재인 청와대 및 장관 출신 인사들의 불출마를 압박하고 있다. 윤석열 정부 심판론을 위해선 이들이 불출마를 해야 한다는 것이다. 친명 원외 조직인 '민주당혁신행동'은 임종석·노영민 전 실장을 겨냥해 "정권교체 계기를 제공하고 윤석열 정권 탄생에 기여한 인사들이 총선에 연이어 출마하는 황당한 일이 이어지고 있다"며 불출마를 압박했다.
+											<p class="mb-3 korean-font-bold" id="request-content">실제 공천을 둘러싼 계파 갈등이 심화되는 모양새다. 친명계 자객공천은 물론 원외 친명 조직은 문재인 청와대 및 장관 출신 인사들의 불출마를 압박하고 있다. 윤석열 정부 심판론을 위해선 이들이 불출마를 해야 한다는 것이다. 친명 원외 조직인 '민주당혁신행동'은 임종석·노영민 전 실장을 겨냥해 "정권교체 계기를 제공하고 윤석열 정권 탄생에 기여한 인사들이 총선에 연이어 출마하는 황당한 일이 이어지고 있다"며 불출마를 압박했다.
 
 												자객 출마도 당내 갈등 요소 중 하나다. 친명계 외원인 양문석 전 통영·고성 친문계 핵심인 전해철 의원의 지역구 경기 안산상록갑에 도전장을 냈다. 더민주전국혁신회의 김우영 상임대표도 친문계 강병원 의원 지역구인 서울 은평을에 출마를 준비하는 것으로 알려졌다. 이외에도 임 전 실장이 출마를 선언한 서울 중·성동갑에는 친명계 조상호 민주당 법률위원회 부위원장 전략공천설이, 문재인 정부 여성가족부 장관이었던 진선미 의원 지역구인 서울 강동갑에는 전현희 전 국민권익위원장이, 비명계로 분류되는 신동근 의원의 인천 서구을 지역구에는 모경종 전 당대표실 차장이 출마를 선언하는 등 '자객 공천' 우려는 더욱 커지고 있다.
 

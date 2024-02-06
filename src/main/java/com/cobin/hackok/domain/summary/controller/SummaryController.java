@@ -1,8 +1,10 @@
 package com.cobin.hackok.domain.summary.controller;
 
 import com.cobin.hackok.domain.global.config.IdConfig;
+import com.cobin.hackok.domain.summary.service.SummaryService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,6 +20,12 @@ import java.util.Map;
 @RequestMapping("/")
 @Slf4j
 public class SummaryController {
+    private final SummaryService service;
+    @Autowired
+    public SummaryController(SummaryService service) {
+        this.service = service;
+    }
+
     public String home(HttpServletRequest request){
         if(request.getSession(false) == null) return "/login";
         return "index";
@@ -26,24 +34,12 @@ public class SummaryController {
     @PostMapping(value = "/summarize/ajax")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> summarizeAjax(@RequestBody com.cobin.hackok.domain.summary.dto.RequestBody requestBody) {
-        String apiUrl = "https://naveropenapi.apigw.ntruss.com/text-summary/v1/summarize";
-        IdConfig idConfig = new IdConfig();
-
-        WebClient webClient = WebClient.builder().baseUrl(apiUrl)
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultHeader("X-NCP-APIGW-API-KEY-ID", idConfig.getClientId())
-                .defaultHeader("X-NCP-APIGW-API-KEY", idConfig.getClientSecret())
-                .build();
-
-        // POST 요청을 보내고 응답을 받아옴
-        Map<String, Object> response = webClient.post()
-                .body(BodyInserters.fromValue(requestBody))
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
-                .block();
-
+        // 네이버 API 사용 부분
+        Map<String, Object> response = service.getSummary(requestBody);
         return ResponseEntity.ok(response);
     }
+
+
 
 
     // 1. 텍스트 요약

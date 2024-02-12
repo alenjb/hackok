@@ -1,5 +1,6 @@
 package com.cobin.hackok.domain.summary.service;
 
+import com.cobin.hackok.domain.summary.dto.Summary;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +31,9 @@ public class SummaryServiceImpl implements SummaryService{
         this.properties = properties;
     }
 
-    // 네이버 api 요약 기능
+    /** 요약 관련 기능 **/
+
+    // 1. 네이버 api를 사용해 요약하는 메서드
     public Map<String, Object> getSummary(com.cobin.hackok.domain.summary.dto.RequestBody requestBody) {
         String apiUrl = "https://naveropenapi.apigw.ntruss.com/text-summary/v1/summarize";
 
@@ -48,6 +51,9 @@ public class SummaryServiceImpl implements SummaryService{
                 .block();
     }
 
+    /** 키워드 추출 기능 **/
+
+    // 1. 키워드를 가져오는 메서드(1. openAI로 추출 2. matgim API로 추출)
     @Override
     public Map<String, Object> getKeywords(String content) throws JsonProcessingException {
         try {
@@ -56,7 +62,6 @@ public class SummaryServiceImpl implements SummaryService{
         } catch (Exception e) {
             log.info("openAI 추출 실패 후 matgim API를 사용");
             // 2. openAI의 키워드 추출이 실패하면 matgim API를 사용해 키워드 추출 후 리턴
-            // 키워드 추출의 matgim.ai version
             Map<String, Object> response = getKeywordsFromMatgimAPI(content);
 
             // 응답을 매핑
@@ -71,8 +76,8 @@ public class SummaryServiceImpl implements SummaryService{
         }
     }
 
-     // 키워드 추출의 open AI version
-     public Map<String, Object> getKeywordsFromOpenAI(String content) throws Exception{
+    // 2. open AI를 이용하여 키워드 추출
+    public Map<String, Object> getKeywordsFromOpenAI(String content) throws Exception{
          // 키워드를 뽑는 멘트
          content = requestMessageForOpenAI + content;
          Map<String, Object> resultMap = convertJsonToMap(chatgptService.sendMessage(content));
@@ -82,9 +87,9 @@ public class SummaryServiceImpl implements SummaryService{
              keywords.add(removeQuotes(value.toString()));
          }
          return mapKeywords(keywords);
-     }
+    }
 
-
+    // 3. matgim API를 이용하여 키워드 추출
     private Map<String, Object> getKeywordsFromMatgimAPI(String content) {
         String apiUrl = "https://api.matgim.ai/54edkvw2hn/api-keyword";
 
@@ -103,49 +108,10 @@ public class SummaryServiceImpl implements SummaryService{
     }
 
 
-    private static List<String> getTop5Keywords(Map<String, Object> response) {
-        Map<String, Object> result = (Map<String, Object>) response.get("result");
-        if (result.containsKey("keywords")) {
-            List<List<Object>> keywords = (List<List<Object>>) result.get("keywords");
-            // 출현 빈도를 기준으로 내림차순으로 정렬하기 위해 TreeMap을 사용
-            TreeMap<String, Integer> keywordMap = new TreeMap<>();
-            for (List<Object> keyword : keywords) {
-                String word = (String) keyword.get(0);
-                int frequency = (int) keyword.get(1);
-                keywordMap.put(word, frequency);
-            }
 
-            // 출현 빈도가 높은 순서대로 상위 5개 키워드를 추출하여 리스트로 반환
-            return keywordMap.entrySet().stream()
-                    .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-                    .limit(5)
-                    .map(Map.Entry::getKey)
-                    .collect(Collectors.toList());
-        } else {
-            System.out.println("No keywords found in the response.");
-        }
-        return null;
-    }
+    /** 키워드 처리 기능 **/
 
-    @Override
-    public Map<String, Object> mapKeywords(List<String> keywords) {
-        HashMap<String, Object> keywordMap = new HashMap<>();
-        for(String k:keywords){
-        keywordMap.put("keyword1", removeQuotes(keywords.get(0)));
-        keywordMap.put("keyword2", removeQuotes(keywords.get(1)));
-        keywordMap.put("keyword3", removeQuotes(keywords.get(2)));
-        keywordMap.put("keyword4", removeQuotes(keywords.get(3)));
-        keywordMap.put("keyword5", removeQuotes(keywords.get(4)));
-        }
-        return keywordMap;
-    }
-    
-    // 따옴표 제거
-    private String removeQuotes(String keyword) {
-        return keyword.replaceAll("^\"|\"$", "");
-    }
-
-    //주어진 JSON 형식의 문자열을 Map으로 변환하는 메서드
+    // 1. 주어진 JSON 형식의 문자열을 Map으로 변환하는 메서드
     public Map<String, Object> convertJsonToMap(String jsonString) {
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -157,7 +123,7 @@ public class SummaryServiceImpl implements SummaryService{
         }
     }
 
-    // JSON 노드를 재귀적으로 탐색하여 Map으로 변환하는 메서드
+    // 2. JSON 노드를 재귀적으로 탐색하여 Map으로 변환하는 메서드
     private Map<String, Object> convertJsonNodeToMap(JsonNode jsonNode) {
         Map<String, Object> resultMap = new HashMap<>();
         Iterator<Map.Entry<String, JsonNode>> fieldsIterator = jsonNode.fields();
@@ -171,5 +137,56 @@ public class SummaryServiceImpl implements SummaryService{
         }
         return resultMap;
     }
+
+    // 3. 상위 5개의 키워드를 가져오는 메서드(matgim API 사용 시에만 활용)
+    private static List<String> getTop5Keywords(Map<String, Object> response) {
+        Map<String, Object> result = (Map<String, Object>) response.get("result");
+        if (result.containsKey("keywords")) {
+            List<List<Object>> keywords = (List<List<Object>>) result.get("keywords");
+            // 출현 빈도를 기준으로 내림차순으로 정렬하기 위해 TreeMap을 사용
+            TreeMap<String, Integer> keywordMap = new TreeMap<>();
+            for (List<Object> keyword : keywords) {
+                String word = (String) keyword.get(0);
+                int frequency = (int) keyword.get(1);
+                keywordMap.put(word, frequency);
+            }
+            // 출현 빈도가 높은 순서대로 상위 5개 키워드를 추출하여 리스트로 반환
+            return keywordMap.entrySet().stream()
+                    .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                    .limit(5)
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList());
+        } else {
+            System.out.println("No keywords found in the response.");
+        }
+        return null;
+    }
+
+    // 4. 따옴표 제거
+    private String removeQuotes(String keyword) {
+        return keyword.replaceAll("^\"|\"$", "");
+    }
+
+    // 5. 키워드들을 map을 매핑하는 메서드
+    @Override
+    public Map<String, Object> mapKeywords(List<String> keywords) {
+        HashMap<String, Object> keywordMap = new HashMap<>();
+        for(String k:keywords){
+        keywordMap.put("keyword1", removeQuotes(keywords.get(0)));
+        keywordMap.put("keyword2", removeQuotes(keywords.get(1)));
+        keywordMap.put("keyword3", removeQuotes(keywords.get(2)));
+        keywordMap.put("keyword4", removeQuotes(keywords.get(3)));
+        keywordMap.put("keyword5", removeQuotes(keywords.get(4)));
+        }
+        return keywordMap;
+    }
+
+    /** 핵콕을 저장하는 기능 **/
+    @Override
+    public boolean saveHackok(Summary summary) {
+        return true;
+
+    }
+
 
 }

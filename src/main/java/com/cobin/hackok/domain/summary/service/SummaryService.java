@@ -1,5 +1,6 @@
 package com.cobin.hackok.domain.summary.service;
 
+import com.cobin.hackok.domain.summary.dto.Summary;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.List;
@@ -22,6 +23,11 @@ public interface SummaryService {
     Map<String, Object> getKeywords(String content) throws JsonProcessingException;
     // 키워드를 매핑하는 메서드
     public Map<String, Object> mapKeywords(List<String> keywords);
+
+    /**
+     * 핵콕에 저장 기능
+     */
+    public boolean saveHackok(Summary summary);
 
 
 }

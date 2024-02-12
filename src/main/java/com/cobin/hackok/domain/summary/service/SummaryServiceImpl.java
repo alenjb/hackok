@@ -1,6 +1,8 @@
 package com.cobin.hackok.domain.summary.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.flashvayne.chatgpt.service.ChatgptService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -10,10 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -22,7 +22,8 @@ public class SummaryServiceImpl implements SummaryService{
 
     private final ChatgptService chatgptService;
     private final ApiProperties properties;
-    final String requestMent = "다음 나오는 내용의 핵심단어 5개를 뽑아서 콤마로 구분해줘.\n";
+    final String requestMessageForOpenAI = "what is 5 keywords form below? please format the answer as a JSON object with the keys" +
+            "(\"keyword1\",\"keyword2\",\"keyword3\",\"keyword4\",\"keyword5\")\n";
 
     public SummaryServiceImpl(ChatgptService chatgptService, ApiProperties properties) {
         this.chatgptService = chatgptService;
@@ -40,29 +41,51 @@ public class SummaryServiceImpl implements SummaryService{
                 .build();
 
         // POST 요청을 보내고 응답을 받아옴
-        Map<String, Object> response = webClient.post()
+        return webClient.post()
                 .body(BodyInserters.fromValue(requestBody))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .block();
-        return response;
     }
 
-    /**
-     * // 키워드 추출의 open AI version
-     *
-     * @Override public Map<String, Object> getKeywords(String content) {
-     * // 키워드를 뽑는 멘트
-     * content = requestMent + content;
-     * <p>
-     * // ChatGPT 에게 질문 후 매핑해서 리턴
-     * return mapKeywords(chatgptService.sendMessage(content));
-     * }
-     */
-
-    // 키워드 추출의 matgim.ai version
     @Override
     public Map<String, Object> getKeywords(String content) throws JsonProcessingException {
+        try {
+            // 1. openAI의 키워드 추출을 시도해서 성공하면 리턴
+            return getKeywordsFromOpenAI(content);
+        } catch (Exception e) {
+            log.info("openAI 추출 실패 후 matgim API를 사용");
+            // 2. openAI의 키워드 추출이 실패하면 matgim API를 사용해 키워드 추출 후 리턴
+            // 키워드 추출의 matgim.ai version
+            Map<String, Object> response = getKeywordsFromMatgimAPI(content);
+
+            // 응답을 매핑
+            if (response != null && response.containsKey("result")) {
+                List<String> keywordMap = getTop5Keywords(response);
+                assert keywordMap != null;
+                return mapKeywords(keywordMap);
+            } else {
+                System.out.println("Invalid response format or no result found.");
+                return null;
+            }
+        }
+    }
+
+     // 키워드 추출의 open AI version
+     public Map<String, Object> getKeywordsFromOpenAI(String content) throws Exception{
+         // 키워드를 뽑는 멘트
+         content = requestMessageForOpenAI + content;
+         Map<String, Object> resultMap = convertJsonToMap(chatgptService.sendMessage(content));
+         // 맵에서 값들만 빼서 리스트로 만들기
+         List<String> keywords = new ArrayList<>();
+         for (Object value : resultMap.values()) {
+             keywords.add(removeQuotes(value.toString()));
+         }
+         return mapKeywords(keywords);
+     }
+
+
+    private Map<String, Object> getKeywordsFromMatgimAPI(String content) {
         String apiUrl = "https://api.matgim.ai/54edkvw2hn/api-keyword";
 
         WebClient webClient = WebClient.builder().baseUrl(apiUrl)
@@ -76,18 +99,9 @@ public class SummaryServiceImpl implements SummaryService{
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .block();
-
-        // 응답을 매핑
-
-        if (response != null && response.containsKey("result")) {
-            List<String> keywordMap = getTop5Keywords(response);
-            assert keywordMap != null;
-            return mapKeywords(keywordMap);
-        } else {
-            System.out.println("Invalid response format or no result found.");
-        }
-        return null;
+        return response;
     }
+
 
     private static List<String> getTop5Keywords(Map<String, Object> response) {
         Map<String, Object> result = (Map<String, Object>) response.get("result");
@@ -117,35 +131,45 @@ public class SummaryServiceImpl implements SummaryService{
     public Map<String, Object> mapKeywords(List<String> keywords) {
         HashMap<String, Object> keywordMap = new HashMap<>();
         for(String k:keywords){
-        keywordMap.put("keyword1", keywords.get(0));
-        keywordMap.put("keyword2", keywords.get(1));
-        keywordMap.put("keyword3", keywords.get(2));
-        keywordMap.put("keyword4", keywords.get(3));
-        keywordMap.put("keyword5", keywords.get(4));
+        keywordMap.put("keyword1", removeQuotes(keywords.get(0)));
+        keywordMap.put("keyword2", removeQuotes(keywords.get(1)));
+        keywordMap.put("keyword3", removeQuotes(keywords.get(2)));
+        keywordMap.put("keyword4", removeQuotes(keywords.get(3)));
+        keywordMap.put("keyword5", removeQuotes(keywords.get(4)));
         }
         return keywordMap;
     }
-    /**
-     *
+    
     // 따옴표 제거
     private String removeQuotes(String keyword) {
         return keyword.replaceAll("^\"|\"$", "");
     }
 
-     @Override
-     public Map<String, Object> mapKeywords(String keywords) {
-     log.info("키워드" + keywords);
-     String[] splitKeywords = keywords.split(",");
-     for(String k:splitKeywords){
-     log.info("나눈키워드" + k);
-     }
-     HashMap<String, Object> keywordMap = new HashMap<>();
-     keywordMap.put("keyword1", removeQuotes(splitKeywords[0]));
-     keywordMap.put("keyword2", removeQuotes(splitKeywords[1]));
-     keywordMap.put("keyword3", removeQuotes(splitKeywords[2]));
-     keywordMap.put("keyword4", removeQuotes(splitKeywords[3]));
-     keywordMap.put("keyword5", removeQuotes(splitKeywords[4]));
-     return keywordMap;
-     }
-     */
+    //주어진 JSON 형식의 문자열을 Map으로 변환하는 메서드
+    public Map<String, Object> convertJsonToMap(String jsonString) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(jsonString);
+            return convertJsonNodeToMap(rootNode);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    // JSON 노드를 재귀적으로 탐색하여 Map으로 변환하는 메서드
+    private Map<String, Object> convertJsonNodeToMap(JsonNode jsonNode) {
+        Map<String, Object> resultMap = new HashMap<>();
+        Iterator<Map.Entry<String, JsonNode>> fieldsIterator = jsonNode.fields();
+        while (fieldsIterator.hasNext()) {
+            Map.Entry<String, JsonNode> field = fieldsIterator.next();
+            if (field.getValue().isObject()) {
+                resultMap.put(field.getKey(), convertJsonNodeToMap(field.getValue()));
+            } else {
+                resultMap.put(field.getKey(), field.getValue().asText());
+            }
+        }
+        return resultMap;
+    }
+
 }

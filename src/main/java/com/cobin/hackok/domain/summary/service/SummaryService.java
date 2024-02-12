@@ -14,17 +14,13 @@ public interface SummaryService {
 
 
     /**
-     * openAI api 기능
+     * 키워드 추출 기능
+     * 1. chat-gpt를 우선 사용
+     * 2. chat-gpt 오류 시 matgim API 사용
      */
-    // chat gpt에게 요청
-//    Map<String, Object> getKeywords(String content);
-    //키워드들을 맵 형태로 변환
-//    Map<String, Object> mapKeywords(String keywords);
-
-    /**
-     * matgim API 기능
-     */
+    // 키워드를 추출하는 메서드
     Map<String, Object> getKeywords(String content) throws JsonProcessingException;
+    // 키워드를 매핑하는 메서드
     public Map<String, Object> mapKeywords(List<String> keywords);
 
 

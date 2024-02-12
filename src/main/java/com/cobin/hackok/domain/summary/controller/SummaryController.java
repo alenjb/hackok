@@ -1,6 +1,7 @@
 package com.cobin.hackok.domain.summary.controller;
 
 import com.cobin.hackok.domain.summary.service.SummaryService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.flashvayne.chatgpt.service.ChatgptService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class SummaryController {
     // 0. API를 통한 요약 요청
     @PostMapping(value = "/summarize/ajax")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> summarizeAjax(@RequestBody com.cobin.hackok.domain.summary.dto.RequestBody requestBody) {
+    public ResponseEntity<Map<String, Object>> summarizeAjax(@RequestBody com.cobin.hackok.domain.summary.dto.RequestBody requestBody) throws JsonProcessingException {
         // 네이버 API 사용 부분
         Map<String, Object> summary = service.getSummary(requestBody);
         // openAI API 사용 부분

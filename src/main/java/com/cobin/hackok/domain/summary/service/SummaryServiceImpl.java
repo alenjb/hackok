@@ -1,6 +1,7 @@
 package com.cobin.hackok.domain.summary.service;
 
 import com.cobin.hackok.domain.summary.dto.Summary;
+import com.cobin.hackok.domain.summary.repository.SummaryRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,12 +24,14 @@ public class SummaryServiceImpl implements SummaryService{
 
     private final ChatgptService chatgptService;
     private final ApiProperties properties;
+    private final SummaryRepository summaryRepository;
     final String requestMessageForOpenAI = "what is 5 keywords form below? please format the answer as a JSON object with the keys" +
             "(\"keyword1\",\"keyword2\",\"keyword3\",\"keyword4\",\"keyword5\")\n";
 
-    public SummaryServiceImpl(ChatgptService chatgptService, ApiProperties properties) {
+    public SummaryServiceImpl(ChatgptService chatgptService, ApiProperties properties, SummaryRepository summaryRepository) {
         this.chatgptService = chatgptService;
         this.properties = properties;
+        this.summaryRepository = summaryRepository;
     }
 
     /** 요약 관련 기능 **/
@@ -184,8 +187,7 @@ public class SummaryServiceImpl implements SummaryService{
     /** 핵콕을 저장하는 기능 **/
     @Override
     public boolean saveHackok(Summary summary) {
-        return true;
-
+        return summaryRepository.save(summary);
     }
 
 

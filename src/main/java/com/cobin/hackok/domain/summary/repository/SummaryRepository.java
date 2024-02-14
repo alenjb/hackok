@@ -13,8 +13,11 @@ public interface SummaryRepository {
     Boolean save(Summary summary);
 
     // 3. 수정
-    Summary update(Summary summary);
+    Summary update(Long oldId, Summary summary);
 
     // 4. 삭제
     Boolean delete(Summary summary);
+
+    // 5. 초기화 - 임시 저장소 테스트 용
+    void clearStore();
 }

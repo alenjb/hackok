@@ -240,7 +240,9 @@
 				</li>
 				<!-- Login button START -->
 				<li class="nav-item ms-3">
-					<a href="sign-up.html" class="btn btn-sm btn-primary mb-0 korean-font-bold"><i class="fa-solid fa-right-to-bracket me-2"></i>로그아웃</a>
+					<form action="/logout" method="post">
+						<button class="btn btn-sm btn-primary mb-0 korean-font-bold"><i class="fa-solid fa-right-to-bracket me-2"></i>로그아웃</button>
+					</form>
 				</li>
 				<!-- Login button END -->
 			</ul>
@@ -448,7 +450,7 @@ Steps END -->
 		<ul class="navbar-nav">
 			<!-- Nav item 최근기록 -->
 			<li class="nav-item">
-				<a class="nav-link" href="index.html" id="left-nav-item"><i class="bi bi-bookmark fa-fw"></i>
+				<a class="nav-link" href="/list" id="left-nav-item"><i class="bi bi-bookmark fa-fw"></i>
 					<span class="mb-0 nav-text korean-font-bold">최근 기록</span>
 				</a>
 			</li>

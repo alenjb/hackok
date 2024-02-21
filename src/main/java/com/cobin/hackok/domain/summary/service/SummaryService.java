@@ -27,7 +27,7 @@ public interface SummaryService {
     /**
      * 핵콕에 저장 기능
      */
-    public boolean saveHackok(Summary summary);
+    public Summary saveHackok(Summary summary);
 
 
 }

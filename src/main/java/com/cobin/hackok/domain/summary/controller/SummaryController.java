@@ -78,9 +78,9 @@ public class SummaryController {
                              @RequestParam("keywords") List<String> keywords,
                              @RequestParam("summaryText") String summaryText,
                              RedirectAttributes redirectAttributes){
-        boolean saveResult = service.saveHackok(new Summary(Long.parseLong(memberId), loginId, rawText, title, keywords, summaryText));
+        Summary saveResult = service.saveHackok(new Summary(new ObjectId(), loginId, rawText, title, keywords, summaryText));
 
-        if(!saveResult){ // 핵콕 저장에 실패한 경우
+        if(saveResult == null){ // 핵콕 저장에 실패한 경우
             log.error("핵콕 저장 과정에 오류가 발생하였습니다.");
             redirectAttributes.addFlashAttribute("error", "핵콕 저장 과정에 오류가 발생하였습니다.");
             return "redirect:/summary/summaryByText";

@@ -184,9 +184,11 @@ public class SummaryServiceImpl implements SummaryService{
         return keywordMap;
     }
 
-    /** 핵콕을 저장하는 기능 **/
+    /**
+     * 핵콕을 저장하는 기능
+     **/
     @Override
-    public boolean saveHackok(Summary summary) {
+    public Summary saveHackok(Summary summary) {
         return summaryRepository.save(summary);
     }
 

@@ -3,13 +3,18 @@ package com.cobin.hackok.domain.summary.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
+@Document(collection = "summaries")
 public class Summary {
-    private Long id;                    // 고유 아이디
+    @Id
+    private ObjectId id;                    // 고유 아이디
     @NotBlank
     private String userId;              // 사용자의 아이디
     @NotBlank

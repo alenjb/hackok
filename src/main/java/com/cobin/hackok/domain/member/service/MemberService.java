@@ -7,7 +7,6 @@ import java.util.Optional;
 public interface MemberService {
     boolean signup(Member member);  // 회원가입
     Member login(Member member);    // 로그인
-
     Optional<Member> findPasswordByLoginIdAndName(String loginId, String name);   // 비밀번호 찾기
 
 }

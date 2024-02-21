@@ -15,7 +15,9 @@ import java.util.Optional;
 @Slf4j
 @Controller
 public class MemberLoginController {
+
     private final MemberService service;
+
     @Autowired
     public MemberLoginController(MemberService service) {
         this.service = service;

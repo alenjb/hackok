@@ -8,15 +8,18 @@ import io.github.flashvayne.chatgpt.service.ChatgptService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/")
@@ -52,18 +55,19 @@ public class SummaryController {
         return ResponseEntity.ok(response);
     }
 
-
-    // 1. 텍스트 요약
+    // 1-1. 텍스트 요약
     @GetMapping("text")
     public String summaryByText(HttpSession session, Model model){
         // 세션에서 userId를 가져와서 모델에 추가
         Member member = (Member) session.getAttribute("loginMember");
-        Long memberId = member.getId();
+        ObjectId memberId = member.getId();
         String loginId = member.getLoginId();
         model.addAttribute("memberId", memberId);
         model.addAttribute("loginId", loginId);
         return "summary/summaryByText";
     }
+    // 1-2. 이미지 요약
+    // 1-3. 음성 요약
 
     // 2. 핵콕 저장
     @PostMapping("/save")
@@ -72,16 +76,29 @@ public class SummaryController {
                              @RequestParam("rawText") String rawText,
                              @RequestParam("title") String title,
                              @RequestParam("keywords") List<String> keywords,
-                             @RequestParam("summaryText") String summaryText){
-        service.saveHackok(new Summary(Long.parseLong(memberId), loginId, rawText, title, keywords, summaryText));
-//        // 모든 파라미터 이름과 값을 출력한다.
-//        java.util.Enumeration<String> parameterNames = request.getParameterNames();
-//        while (parameterNames.hasMoreElements()) {
-//            String paramName = parameterNames.nextElement();
-//            String paramValue = request.getParameter(paramName);
-//            System.out.println(paramName + " : " + paramValue);}
-        return "index";
+                             @RequestParam("summaryText") String summaryText,
+                             RedirectAttributes redirectAttributes){
+        boolean saveResult = service.saveHackok(new Summary(Long.parseLong(memberId), loginId, rawText, title, keywords, summaryText));
+
+        if(!saveResult){ // 핵콕 저장에 실패한 경우
+            log.error("핵콕 저장 과정에 오류가 발생하였습니다.");
+            redirectAttributes.addFlashAttribute("error", "핵콕 저장 과정에 오류가 발생하였습니다.");
+            return "redirect:/summary/summaryByText";
+        }
+        return "/index";
     }
-    // 2. 이미지 요약
-    // 3. 음성 요약
+
+    // 3. 핵콕 조회(최근 기록)
+    @GetMapping("/list")
+    public String hackokList(HttpSession session, Model model){
+        Member member = (Member) session.getAttribute("loginMember");
+        ObjectId memberId = member.getId();
+        String loginId = member.getLoginId();
+
+        model.addAttribute("memberId", memberId);
+        model.addAttribute("loginId", loginId);
+
+        return "summary/summaryList";
+    }
+
 }

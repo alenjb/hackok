@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -25,4 +26,5 @@ public class Summary {
     private List<String> keywords;      // 핵심 키워드들
     @NotBlank
     private String summaryText;         // 요약된 텍스트
+    private String date;                  // 요약 날짜
 }

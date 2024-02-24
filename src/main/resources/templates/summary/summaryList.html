@@ -1,6 +1,5 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
 	<title>Booking - Multipurpose Online Booking Theme</title>
 
@@ -68,6 +67,12 @@
 			}
 		})
 	</script>
+
+	<style>
+		.keyword + .keyword {
+			margin-left: 5px; /* 버튼 사이의 간격 조절 */
+		}
+	</style>
 
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="../assets/images/favicon.ico">
@@ -170,7 +175,7 @@ Cab list START -->
 			<div class="col-xl-12 col-xxl-12">
 				<div class="vstack gap-4">
 					<!-- Cab item START -->
-					<div class="card border p-4">
+					<div class="card border p-4" th:each="hackok : ${hackoksList}">
 						<!-- Card body START -->
 						<div class="card-body p-0">
 							<div class="row g-2 g-sm-4 mb-4">
@@ -182,10 +187,10 @@ Cab list START -->
 <!--								</div>-->
 
 								<!-- Card title and rating -->
-								<div class="col-sm-6 col-md-4 col-xl-6">
-									<h4 class="card-title mb-2"><a href="cab-detail.html" class="stretched-link">제목</a></h4>
+								<div class="col-sm-12 col-md-12 col-xl-12">
+									<h4 class="card-title mb-2"><a href="cab-detail.html" class="stretched-link" th:text="${hackok.title}">제목</a></h4>
 									<!-- Nav divider -->
-									<h6> 2023 . 2 . 5</h6>
+									<h6 th:text="${hackok.date}"> 2023 . 2 . 5</h6>
 								</div>
 							</div> <!-- Row END -->
 						</div>
@@ -195,12 +200,8 @@ Cab list START -->
 						<div class="card-footer border-top p-0 pt-3">
 							<div class="row">
 								<!-- List -->
-								<div class="col-md-6">
-									<a class="btn btn-primary-soft keyword" href="#">키워드1</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드2</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드3</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드4</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드5</a>
+								<div class="col-12">
+									<a class="btn btn-primary-soft keyword" th:each="keyword : ${hackok.keywords}" th:text="${keyword}"></a>
 								</div>
 							</div>
 						</div>
@@ -208,119 +209,44 @@ Cab list START -->
 					</div>
 					<!-- Cab item END -->
 					<!-- Cab item START -->
-					<div class="card border p-4">
-						<!-- Card body START -->
-						<div class="card-body p-0">
-							<div class="row g-2 g-sm-4 mb-4">
-								<!-- Card image -->
-								<!--								<div class="col-md-4 col-xl-3">-->
-								<!--									<div class="bg-light rounded-3 px-4 py-5">-->
-								<!--										<img src="../assets/images/category/cab/seadan.svg" alt="">-->
-								<!--									</div>-->
-								<!--								</div>-->
+<!--					<div class="card border p-4">-->
+<!--						&lt;!&ndash; Card body START &ndash;&gt;-->
+<!--						<div class="card-body p-0">-->
+<!--							<div class="row g-2 g-sm-4 mb-4">-->
+<!--								&lt;!&ndash; Card image &ndash;&gt;-->
+<!--								&lt;!&ndash;								<div class="col-md-4 col-xl-3">&ndash;&gt;-->
+<!--								&lt;!&ndash;									<div class="bg-light rounded-3 px-4 py-5">&ndash;&gt;-->
+<!--								&lt;!&ndash;										<img src="../assets/images/category/cab/seadan.svg" alt="">&ndash;&gt;-->
+<!--								&lt;!&ndash;									</div>&ndash;&gt;-->
+<!--								&lt;!&ndash;								</div>&ndash;&gt;-->
 
-								<!-- Card title and rating -->
-								<div class="col-sm-6 col-md-4 col-xl-6">
-									<h4 class="card-title mb-2"><a href="cab-detail.html" class="stretched-link">제목</a></h4>
-									<!-- Nav divider -->
-									<h6> 2023 . 2 . 5</h6>
-								</div>
-							</div> <!-- Row END -->
-						</div>
-						<!-- Card body END -->
+<!--								&lt;!&ndash; Card title and rating &ndash;&gt;-->
+<!--								<div class="col-sm-6 col-md-4 col-xl-6">-->
+<!--									<h4 class="card-title mb-2"><a href="cab-detail.html" class="stretched-link">제목</a></h4>-->
+<!--									&lt;!&ndash; Nav divider &ndash;&gt;-->
+<!--									<h6> 2023 . 2 . 5</h6>-->
+<!--								</div>-->
+<!--							</div> &lt;!&ndash; Row END &ndash;&gt;-->
+<!--						</div>-->
+<!--						&lt;!&ndash; Card body END &ndash;&gt;-->
 
-						<!-- Card footer START -->
-						<div class="card-footer border-top p-0 pt-3">
-							<div class="row">
-								<!-- List -->
-								<div class="col-md-6">
-									<a class="btn btn-primary-soft keyword" href="#">키워드1</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드2</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드3</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드4</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드5</a>
-								</div>
-							</div>
-						</div>
-						<!-- card footer END -->
-					</div>
+<!--						&lt;!&ndash; Card footer START &ndash;&gt;-->
+<!--						<div class="card-footer border-top p-0 pt-3">-->
+<!--							<div class="row">-->
+<!--								&lt;!&ndash; List &ndash;&gt;-->
+<!--								<div class="col-md-6">-->
+<!--									<a class="btn btn-primary-soft keyword" href="#">키워드1</a>-->
+<!--									<a class="btn btn-primary-soft keyword" href="#">키워드2</a>-->
+<!--									<a class="btn btn-primary-soft keyword" href="#">키워드3</a>-->
+<!--									<a class="btn btn-primary-soft keyword" href="#">키워드4</a>-->
+<!--									<a class="btn btn-primary-soft keyword" href="#">키워드5</a>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--						&lt;!&ndash; card footer END &ndash;&gt;-->
+<!--					</div>-->
 					<!-- Cab item END -->
 					<!-- Cab item START -->
-					<div class="card border p-4">
-						<!-- Card body START -->
-						<div class="card-body p-0">
-							<div class="row g-2 g-sm-4 mb-4">
-								<!-- Card image -->
-								<!--								<div class="col-md-4 col-xl-3">-->
-								<!--									<div class="bg-light rounded-3 px-4 py-5">-->
-								<!--										<img src="../assets/images/category/cab/seadan.svg" alt="">-->
-								<!--									</div>-->
-								<!--								</div>-->
-
-								<!-- Card title and rating -->
-								<div class="col-sm-6 col-md-4 col-xl-6">
-									<h4 class="card-title mb-2"><a href="cab-detail.html" class="stretched-link">제목</a></h4>
-									<!-- Nav divider -->
-									<h6> 2023 . 2 . 5</h6>
-								</div>
-							</div> <!-- Row END -->
-						</div>
-						<!-- Card body END -->
-
-						<!-- Card footer START -->
-						<div class="card-footer border-top p-0 pt-3">
-							<div class="row">
-								<!-- List -->
-								<div class="col-md-6">
-									<a class="btn btn-primary-soft keyword" href="#">키워드1</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드2</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드3</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드4</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드5</a>
-								</div>
-							</div>
-						</div>
-						<!-- card footer END -->
-					</div>
-					<!-- Cab item END -->
-					<!-- Cab item START -->
-					<div class="card border p-4">
-						<!-- Card body START -->
-						<div class="card-body p-0">
-							<div class="row g-2 g-sm-4 mb-4">
-								<!-- Card image -->
-								<!--								<div class="col-md-4 col-xl-3">-->
-								<!--									<div class="bg-light rounded-3 px-4 py-5">-->
-								<!--										<img src="../assets/images/category/cab/seadan.svg" alt="">-->
-								<!--									</div>-->
-								<!--								</div>-->
-
-								<!-- Card title and rating -->
-								<div class="col-sm-6 col-md-4 col-xl-6">
-									<h4 class="card-title mb-2"><a href="cab-detail.html" class="stretched-link">제목</a></h4>
-									<!-- Nav divider -->
-									<h6> 2023 . 2 . 5</h6>
-								</div>
-							</div> <!-- Row END -->
-						</div>
-						<!-- Card body END -->
-
-						<!-- Card footer START -->
-						<div class="card-footer border-top p-0 pt-3">
-							<div class="row">
-								<!-- List -->
-								<div class="col-md-6">
-									<a class="btn btn-primary-soft keyword" href="#">키워드1</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드2</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드3</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드4</a>
-									<a class="btn btn-primary-soft keyword" href="#">키워드5</a>
-								</div>
-							</div>
-						</div>
-						<!-- card footer END -->
-					</div>
-					<!-- Cab item END -->
 					<!-- Pagination -->
 					<nav class="d-flex justify-content-center" aria-label="navigation">
 						<ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">

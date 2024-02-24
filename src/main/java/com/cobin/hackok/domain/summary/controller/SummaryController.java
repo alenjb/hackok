@@ -16,10 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -77,8 +74,9 @@ public class SummaryController {
                              @RequestParam("title") String title,
                              @RequestParam("keywords") List<String> keywords,
                              @RequestParam("summaryText") String summaryText,
+                             @RequestParam("date") String date,
                              RedirectAttributes redirectAttributes){
-        Summary saveResult = service.saveHackok(new Summary(new ObjectId(), loginId, rawText, title, keywords, summaryText));
+        Summary saveResult = service.saveHackok(new Summary(new ObjectId(), loginId, rawText, title, keywords, summaryText, date));
 
         if(saveResult == null){ // 핵콕 저장에 실패한 경우
             log.error("핵콕 저장 과정에 오류가 발생하였습니다.");
@@ -88,7 +86,7 @@ public class SummaryController {
         return "/index";
     }
 
-    // 3. 핵콕 조회(최근 기록)
+    // 3. 핵콕 리스트 조회(최근 기록)
     @GetMapping("/list")
     public String hackokList(HttpSession session, Model model){
         Member member = (Member) session.getAttribute("loginMember");
@@ -97,6 +95,9 @@ public class SummaryController {
 
         model.addAttribute("memberId", memberId);
         model.addAttribute("loginId", loginId);
+
+        List<Summary> hackoksByLoginId = service.getHackoksByLoginId(loginId);
+        model.addAttribute("hackoksList", hackoksByLoginId);
 
         return "summary/summaryList";
     }

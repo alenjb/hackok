@@ -2,6 +2,7 @@ package com.cobin.hackok.domain.summary.service;
 
 import com.cobin.hackok.domain.summary.dto.Summary;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 import java.util.Map;
@@ -29,5 +30,9 @@ public interface SummaryService {
      */
     public Summary saveHackok(Summary summary);
 
+    /**
+     * 핵콕을 리스트로 조회하는 기능
+     */
+    public List<Summary> getHackoksByLoginId(String loginId);
 
 }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.flashvayne.chatgpt.service.ChatgptService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -190,6 +191,15 @@ public class SummaryServiceImpl implements SummaryService{
     @Override
     public Summary saveHackok(Summary summary) {
         return summaryRepository.save(summary);
+    }
+
+    /**
+     * 핵콕을 리스트로 조회하는 기능
+     */
+
+    @Override
+    public List<Summary> getHackoksByLoginId(String loginId) {
+        return summaryRepository.findSummariesByUserId(loginId);
     }
 
 

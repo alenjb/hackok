@@ -93,6 +93,13 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
 	var contentValue = "임시값";
+
+	//날짜 관련 변수들
+	const today = new Date();
+	const year = today.getFullYear();
+	const month = String(today.getMonth() + 1).padStart(2, '0');
+	const day = String(today.getDate()).padStart(2, '0');
+	const formattedDate = `${year}.${month}.${day}`;
 	$(document).ready(function() {
 		// 제목 입력란(keyup 이벤트)
 		$("#title, #content").keyup(function() {
@@ -176,7 +183,8 @@
 				rawText: contentValue,
 				title: $("#summary-title").text(),
 				keywords: getKeywordsText(),
-				summaryText: $("#summary-content").text()
+				summaryText: $("#summary-content").text(),
+				date: formattedDate
 			};
 
 			// AJAX 요청을 보냄

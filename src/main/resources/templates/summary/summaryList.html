@@ -188,7 +188,7 @@ Cab list START -->
 
 								<!-- Card title and rating -->
 								<div class="col-sm-12 col-md-12 col-xl-12">
-									<h4 class="card-title mb-2"><a href="cab-detail.html" class="stretched-link" th:text="${hackok.title}">제목</a></h4>
+									<h4 class="card-title mb-2"><a th:href="@{/view/{id}(id=${hackok.getId()})}" class="stretched-link" th:text="${hackok.title}">제목</a></h4>
 									<!-- Nav divider -->
 									<h6 th:text="${hackok.date}"> 2023 . 2 . 5</h6>
 								</div>

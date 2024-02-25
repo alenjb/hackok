@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+	<title>Booking - Multipurpose Online Booking Theme</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Webestica.com">
+	<meta name="description" content="Booking - Multipurpose Online Booking Theme">
+
+	<!-- Dark mode -->
+	<script>
+		const storedTheme = localStorage.getItem('theme')
+ 
+		const getPreferredTheme = () => {
+			if (storedTheme) {
+				return storedTheme
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = function (theme) {
+			if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', theme)
+			}
+		}
+
+		setTheme(getPreferredTheme())
+
+		window.addEventListener('DOMContentLoaded', () => {
+		    var el = document.querySelector('.theme-icon-active');
+			if(el != 'undefined' && el != null) {
+				const showActiveTheme = theme => {
+				const activeThemeIcon = document.querySelector('.theme-icon-active use')
+				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+
+				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+					element.classList.remove('active')
+				})
+
+				btnToActive.classList.add('active')
+				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+			}
+
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+				if (storedTheme !== 'light' || storedTheme !== 'dark') {
+					setTheme(getPreferredTheme())
+				}
+			})
+
+			showActiveTheme(getPreferredTheme())
+
+			document.querySelectorAll('[data-bs-theme-value]')
+				.forEach(toggle => {
+					toggle.addEventListener('click', () => {
+						const theme = toggle.getAttribute('data-bs-theme-value')
+						localStorage.setItem('theme', theme)
+						setTheme(theme)
+						showActiveTheme(theme)
+					})
+				})
+
+			}
+		})
+		
+	</script>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../assets/images/favicon.ico">
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/font-awesome/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/bootstrap-icons/bootstrap-icons.css">
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/choices/css/choices.min.css">
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/flatpickr/css/flatpickr.min.css">
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/stepper/css/bs-stepper.min.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+
+	<style>
+		.keyword + .keyword {
+			margin-left: 5px; /* 버튼 사이의 간격 조절 */
+		}
+	</style>
+
+
+
+</head>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+	var contentValue = "임시값";
+
+	//날짜 관련 변수들
+	const today = new Date();
+	const year = today.getFullYear();
+	const month = String(today.getMonth() + 1).padStart(2, '0');
+	const day = String(today.getDate()).padStart(2, '0');
+	const formattedDate = `${year}.${month}.${day}`;
+	$(document).ready(function() {
+		// 제목 입력란(keyup 이벤트)
+		$("#title, #content").keyup(function() {
+			// 제목과 내용 입력란의 값
+			const titleValueTest = $("#title").val();
+			const contentValueTest = $("#content").val();
+
+			// 제목과 내용 모두에 내용이 입력되었을 때 버튼 활성화
+			if (titleValueTest.trim().length > 0 && contentValueTest.trim().length > 0) {
+				$("#hackok").prop("disabled", false); // 버튼 활성화
+			} else {
+				$("#hackok").prop("disabled", true); // 버튼 비활성화
+			}
+		});
+
+		// id가 "hackok"인 버튼 클릭 이벤트 핸들러
+		$("#hackok").click(function(event) {
+			event.preventDefault();
+			// 제목과 내용 가져오기
+			const titleValue = $("#title").val();
+			contentValue = $("#content").val();
+			// AJAX 호출
+			$.ajax({
+				type: "POST",
+				url: "/summarize/ajax",
+				contentType: "application/json",
+				data: JSON.stringify({
+					document: {
+						title: titleValue,
+						content: contentValue,
+					},
+					option: {
+						language: "ko",
+						model: "news",
+						tone: 2,
+						summaryCount: 3,
+					},
+				}),
+				success: function(response) {
+					// 요청에 보낸 title 부분을 id가 "summary-title"인 요소에 넣기
+					$("#summary-title").text(titleValue);
+
+					// 요청에 보낸 content 부분을 id가 "request-content"인 요소에 넣기
+					$("#request-content").text(contentValue);
+
+					// 응답 중 summary 부분을 id가 "summary-content"인 요소에 넣기
+					$("#summary-content").html("<h6 class='korean-font-bold'>" + response.summary + "</h6>");
+
+					// 응답 중 keyword1 부분을 id가 "keyword1"인 요소에 넣기
+					$("#keyword1").text(response.keyword1);
+					$("#keyword1").attr("href", "https://search.naver.com/search.naver?query=" + response.keyword1);
+
+					// 응답 중 keyword2 부분을 id가 "keyword2"인 요소에 넣기
+					$("#keyword2").text(response.keyword2);
+					$("#keyword2").attr("href", "https://search.naver.com/search.naver?query=" + response.keyword2);
+
+					// 응답 중 keyword3 부분을 id가 "keyword3"인 요소에 넣기
+					$("#keyword3").text(response.keyword3);
+					$("#keyword3").attr("href", "https://search.naver.com/search.naver?query=" + response.keyword3);
+
+					// 응답 중 keyword4 부분을 id가 "keyword4"인 요소에 넣기
+					$("#keyword4").text(response.keyword4);
+					$("#keyword4").attr("href", "https://search.naver.com/search.naver?query=" + response.keyword4);
+
+					// 응답 중 keyword5 부분을 id가 "keyword5"인 요소에 넣기
+					$("#keyword5").text(response.keyword5);
+					$("#keyword5").attr("href", "https://search.naver.com/search.naver?query=" + response.keyword5);
+
+				},
+				error: function(error) {
+					alert("오류가 발생했습니다. 다시 시도해주세요.");
+					console.error("에러:", error);
+				},
+			});
+		});
+		$("#saveHackok").click(function (){
+			// 저장에 필요한 데이터들을 Map 형태로 저장
+			const dataToSend = {
+				memberId: $("#memberId").val(),
+				loginId: $("#loginId").val(),
+				rawText: contentValue,
+				title: $("#summary-title").text(),
+				keywords: getKeywordsText(),
+				summaryText: $("#summary-content").text(),
+				date: formattedDate
+			};
+
+			// AJAX 요청을 보냄
+			$.ajax({
+				type: "POST",
+				url: "/save",
+				data: dataToSend,
+				success: function(response) {
+					// 성공적으로 요청을 보낸 후 index 페이지로 리다이렉트
+					window.location.href = "/list";
+				},
+				error: function(xhr, status, error) {
+					// 요청을 보내는 중에 오류가 발생한 경우 처리
+					console.error("Error sending data: " + error);
+				}
+			});
+		});
+
+		function getKeywordsText() {
+			let keywordsText = "";
+			// id가 keyword1부터 keyword5까지인 요소의 텍스트를 가져와서 keywordsText에 추가
+			for (let i = 1; i <= 5; i++) {
+				let keyword = $("#keyword" + i).text();
+				if (keyword) {
+					// keyword가 존재할 경우에만 추가
+					keywordsText += keyword + ", ";
+				}
+			}
+			// 마지막 콤마와 공백 제거
+			keywordsText = keywordsText.slice(0, -2);
+			return keywordsText;
+		}
+	});
+
+</script>
+<body>
+
+<!-- Header START -->
+<header class="navbar-light header-sticky">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-expand-xl">
+		<div class="container">
+			<!-- Logo START -->
+			<a class="navbar-brand" href="#">
+				<img class="light-mode-item navbar-brand-item" src="../assets/images/logo.svg" alt="logo">
+				<img class="dark-mode-item navbar-brand-item" src="../assets/images/logo-light.svg" alt="logo">
+			</a>
+			<!-- Logo END -->
+
+			<!-- Buttons START -->
+			<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+
+				<!-- Download app -->
+				<li class="nav-item align-items-center d-none d-sm-flex position-relative me-sm-3">
+					<!-- Icon -->
+					<a href="#" class="icon-md btn btn-light mb-0 p-0 flex-shrink-0"><i class="bi bi-cloud-download-fill"></i></a>
+					<div class="ms-2 d-none d-md-block">
+						<h6 class="mb-0"><a href="#" class="stretched-link korean-font-bold">앱 다운로드</a></h6>
+						<p class="small mb-0 text-body korean-font-bold">어플리케이션을 설치하여 더 나은 경험을 해보세요</p>
+					</div>
+				</li>
+				<!-- Login button START -->
+				<li class="nav-item ms-3">
+					<form action="/logout" method="post">
+						<button class="btn border- btn-sm bg-opacity-10 mb-0 korean-font-bold" style="color: black; width: 70px"><img src="../assets/images/logout-icon.svg" width="30" alt=""></i></button>
+					</form>
+				</li>
+				<!-- Login button END -->
+			</ul>
+			<!-- Buttons START -->
+
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+	
+
+<!-- =======================
+Steps START -->
+<section style="padding-top: 20px">
+	<div class="container">
+		<div id="stepper" class="bs-stepper stepper-outline">
+			<!-- Step Buttons END -->
+
+			<!-- Step content START -->
+			<div class="bs-stepper-content p-0 pt-4">
+				<div class="row g-4">
+
+					<!-- Main content START -->
+					<div class="col-xl-12">
+<!--						<form onsubmit="return false">-->
+						<form action="/save" method="post" onsubmit="return false">
+							<!-- Step 3 content START -->
+							<div id="step-1" role="tabpanel" class="" aria-labelledby="">
+								<div class="vstack gap-4">
+									<!-- Title -->
+									<div class="d-flex justify-content-between">
+										<h4 class="mb-0 korean-font">요약 결과</h4>
+										<!-- tabs -->
+										<ul class="nav nav-pills nav-pills-dark" id="tour-pills-tab" role="tablist">
+											<!-- Tab item -->
+											<li class="nav-item">
+												<button class="btn btn- korean-font-bold p-0" href="" style="margin-right: 10px"><img src="../assets/images/edit-icon.svg"  width="30px" alt=""></button>
+											</li>
+											<!-- Tab item -->
+											<li class="nav-item">
+												<button class="btn korean-font-bold p-0" href=""><img src="../assets/images/delete-icon.svg"  width="30px" alt=""></button>
+											</li>
+										</ul>
+									</div>
+
+
+
+
+									<hr class="my-0"> <!-- Divider -->
+
+									<!-- Credit or Debit Card START -->
+									<div class="card border">
+										<!-- Card header -->
+										<div class="card-header border-bottom d-sm-flex justify-content-between align-items-center">
+											<h5 class="mb-2 mb-sm-0 korean-font-bold" id="summary-title" th:text="${hackok.title}">제목</h5>
+											<h6 class="mb-2 mb-sm-0 korean-font-bold" id="summary-date" th:text="${hackok.date}">날짜</h6>
+										</div>
+
+										<!-- Card body -->
+										<div class="card-body">
+											<div class="row g-4">
+												<!-- Card number -->
+												<div class="col-12">
+													<h6 class="korean-font-bold" id="summary-content" th:text="${hackok.summaryText}">요약 내용</h6>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- Credit or Debit Card END -->
+
+									<!-- Paypal START -->
+									<div class="card border">
+										<!-- Card header -->
+										<div class="card-header border-bottom">
+											<h5 class="mb-0 korean-font-bold">핵심 키워드</h5>
+										</div>
+
+										<!-- Card body -->
+										<div class="card-body text-center justify-content-between">
+											<!-- Button -->
+											<a href="https://search.naver.com/search.naver?query=${keyword1}" class="btn btn-primary korean-font-bold keyword" th:each="keyword : ${hackok.keywords}"
+											   th:text="${keyword}">키워드1</a>
+										</div>
+									</div>
+									<!-- Paypal END -->
+
+									<!-- Paypal START -->
+									<div class="card border">
+										<!-- Card header -->
+										<div class="card-header border-bottom">
+											<h5 class="mb-0 korean-font-bold">원문</h5>
+										</div>
+
+										<!-- Card body -->
+										<div class="card-body text-center">
+											<p class="mb-3 korean-font-bold" id="request-content" th:text="${hackok.rawText}"> </p>
+
+										</div>
+									</div>
+									<!-- Paypal END -->
+									<input type="hidden" id="memberId" th:value="${memberId}">
+									<input type="hidden" id="loginId" th:value="${loginId}">
+									<!-- Step 3 button -->
+									<div class="d-flex justify-content-between">
+										<a class="btn mb-0 korean-font-bold" id="prev-btn"><img src="../assets/images/left-arrow.svg"  width="40px" alt=""></a>
+										<a class="btn mb-0 korean-font-bold" id="list-btn" href="/list"><img src="../assets/images/list-icon.svg"  width="40px" alt=""></a>
+<!--										<button class="btn btn-dark-hover prev-btn mb-0 korean-font-bold" id="backToList">목록으로</button>-->
+<!--										<button class="btn btn-dark prev-btn mb-0 korean-font-bold" id="next-btn"><i class="bi bi-arrow-right"></i></button>-->
+										<a class="btn mb-0 korean-font-bold" id="next-btn"><img src="../assets/images/right-arrow.svg"  width="40px" alt=""></a>
+									</div>
+								</div>
+							</div>
+							<!-- Step 3 content END -->
+						</form>
+					</div>
+					<!-- Main content END -->
+				</div>
+			</div>
+			<!-- Step content END -->
+		</div>
+	</div>
+</section>
+<!-- =======================
+Steps END -->
+<section style="padding: 30px 0px 30px 0px;">
+	<!-- Navbar mobile START -->
+	<div class="navbar navbar-mobile">
+		<ul class="navbar-nav">
+			<!-- Nav item 최근기록 -->
+			<li class="nav-item">
+				<a class="nav-link active" href="/list" id="left-nav-item"><i class="bi bi-bookmark fa-fw"></i>
+					<span class="mb-0 nav-text korean-font-bold">최근 기록</span>
+				</a>
+			</li>
+
+			<!-- Nav item 홈 -->
+			<li class="nav-item">
+				<a class="nav-link" href="/" ><i class="bi bi-house-door fa-fw"></i>
+					<span class="mb-0 nav-text korean-font-bold">홈</span>
+				</a>
+			</li>
+
+			<!-- Nav item 내 계정 -->
+			<li class="nav-item">
+				<a class="nav-link" href="account-profile.html" id="right-nav-item"><i class="bi bi-person-circle fa-fw"></i>
+					<span class="mb-0 nav-text korean-font-bold">내 계정</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- Navbar mobile END -->
+</section>
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+
+
+<!-- Back to top -->
+<div class="back-top"></div>
+
+<!-- Bootstrap JS -->
+<script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendors -->
+<script src="../assets/vendor/choices/js/choices.min.js"></script>
+<script src="../assets/vendor/flatpickr/js/flatpickr.min.js"></script>
+<script src="../assets/vendor/stepper/js/bs-stepper.min.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="../assets/js/functions.js"></script>
+
+</body>
+</html>

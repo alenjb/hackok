@@ -202,5 +202,11 @@ public class SummaryServiceImpl implements SummaryService{
         return summaryRepository.findSummariesByUserId(loginId);
     }
 
-
+    /**
+     * 핵콕을 1개씩 조회하는 기능
+     */
+    @Override
+    public Summary getHackokByLoginId(String loginId) {
+        return summaryRepository.findSummaryByUserId(loginId);
+    }
 }

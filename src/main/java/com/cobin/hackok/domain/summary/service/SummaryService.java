@@ -35,4 +35,9 @@ public interface SummaryService {
      */
     public List<Summary> getHackoksByLoginId(String loginId);
 
+    /**
+     * 핵콕을 1개씩 조회하는 기능
+     */
+    public Summary getHackokByLoginId(String loginId);
+
 }

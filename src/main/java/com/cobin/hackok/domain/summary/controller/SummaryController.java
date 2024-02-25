@@ -102,4 +102,19 @@ public class SummaryController {
         return "summary/summaryList";
     }
 
+    // 4. 핵콕 상세 조회(최근 기록)
+    @GetMapping("/view/{userId}")
+    public String hackokDetail(@PathVariable String userId, HttpSession session, Model model){
+        Member member = (Member) session.getAttribute("loginMember");
+        ObjectId memberId = member.getId();
+        String loginId = member.getLoginId();
+
+        Summary hackokByLoginId = service.getHackokByLoginId(loginId);
+        if(hackokByLoginId.getUserId().equals(loginId)){    // 자신의 게시물이 맞는 경우
+            model.addAttribute("hackok", hackokByLoginId);
+            return "/summary/summaryDetailByText";
+        }else {     // 자신의 게시물이 아닌 경우
+            return "summary/summaryList";
+        }
+    }
 }

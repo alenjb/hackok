@@ -14,7 +14,7 @@ public interface SummaryRepository extends MongoRepository<Summary, ObjectId> {
     Summary findSummaryByUserId(String userId);
 
     // 1-2 사용자의 모든 핵콕 조회
-    List<Summary> findSummariesByUserId(String userId);
+    List<Summary> findSummariesByUserIdOrderByIdDesc(String userId);
 
     // 2. 저장 및 수정
     Summary save(Summary summary);

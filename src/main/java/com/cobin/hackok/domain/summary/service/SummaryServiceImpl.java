@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.flashvayne.chatgpt.service.ChatgptService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -81,15 +83,15 @@ public class SummaryServiceImpl implements SummaryService{
 
     // 2. open AI를 이용하여 키워드 추출
     public Map<String, Object> getKeywordsFromOpenAI(String content) throws Exception{
-         // 키워드를 뽑는 멘트
-         content = requestMessageForOpenAI + content;
-         Map<String, Object> resultMap = convertJsonToMap(chatgptService.sendMessage(content));
-         // 맵에서 값들만 빼서 리스트로 만들기
-         List<String> keywords = new ArrayList<>();
-         for (Object value : resultMap.values()) {
-             keywords.add(removeQuotes(value.toString()));
-         }
-         return mapKeywords(keywords);
+        // 키워드를 뽑는 멘트
+        content = requestMessageForOpenAI + content;
+        Map<String, Object> resultMap = convertJsonToMap(chatgptService.sendMessage(content));
+        // 맵에서 값들만 빼서 리스트로 만들기
+        List<String> keywords = new ArrayList<>();
+        for (Object value : resultMap.values()) {
+            keywords.add(removeQuotes(value.toString()));
+        }
+        return mapKeywords(keywords);
     }
 
     // 3. matgim API를 이용하여 키워드 추출
@@ -175,11 +177,11 @@ public class SummaryServiceImpl implements SummaryService{
     public Map<String, Object> mapKeywords(List<String> keywords) {
         HashMap<String, Object> keywordMap = new HashMap<>();
         for(String k:keywords){
-        keywordMap.put("keyword1", removeQuotes(keywords.get(0)));
-        keywordMap.put("keyword2", removeQuotes(keywords.get(1)));
-        keywordMap.put("keyword3", removeQuotes(keywords.get(2)));
-        keywordMap.put("keyword4", removeQuotes(keywords.get(3)));
-        keywordMap.put("keyword5", removeQuotes(keywords.get(4)));
+            keywordMap.put("keyword1", removeQuotes(keywords.get(0)));
+            keywordMap.put("keyword2", removeQuotes(keywords.get(1)));
+            keywordMap.put("keyword3", removeQuotes(keywords.get(2)));
+            keywordMap.put("keyword4", removeQuotes(keywords.get(3)));
+            keywordMap.put("keyword5", removeQuotes(keywords.get(4)));
         }
         return keywordMap;
     }
@@ -207,5 +209,13 @@ public class SummaryServiceImpl implements SummaryService{
     @Override
     public Summary getHackokByLoginId(String loginId) {
         return summaryRepository.findSummaryByUserId(loginId);
+    }
+
+    /**
+     * 핵콕 리스트 페이지 네이션 기능
+     */
+    @Override
+    public Page<Summary> getSummariesByUserId(Pageable pageable, String loginId) {
+        return summaryRepository.findSummariesByUserId(pageable, loginId);
     }
 }

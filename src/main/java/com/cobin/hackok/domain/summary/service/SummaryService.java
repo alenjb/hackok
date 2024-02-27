@@ -3,6 +3,8 @@ package com.cobin.hackok.domain.summary.service;
 import com.cobin.hackok.domain.summary.dto.Summary;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Map;
@@ -39,5 +41,10 @@ public interface SummaryService {
      * 핵콕을 1개씩 조회하는 기능
      */
     public Summary getHackokByLoginId(String loginId);
+
+    /**
+     * 핵콕 리스트 페이지 네이션 기능
+     */
+    public Page<Summary> getSummariesByUserId(Pageable pageable, String loginId);
 
 }

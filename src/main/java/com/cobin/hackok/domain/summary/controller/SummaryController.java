@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,7 +91,11 @@ public class SummaryController {
 
     // 3. 핵콕 리스트 조회(최근 기록)
     @GetMapping("/list")
-    public String hackokList(HttpSession session, Model model){
+    public String hackokList(HttpSession session, Model model,
+                             @RequestParam(defaultValue = "1") int page,
+                             @RequestParam(defaultValue = "3") int size,
+                             @RequestParam(defaultValue = "id") String sortBy,
+                             @RequestParam(defaultValue = "asc") String direction) {
         Member member = (Member) session.getAttribute("loginMember");
         ObjectId memberId = member.getId();
         String loginId = member.getLoginId();
@@ -96,8 +103,18 @@ public class SummaryController {
         model.addAttribute("memberId", memberId);
         model.addAttribute("loginId", loginId);
 
-        List<Summary> hackoksByLoginId = service.getHackoksByLoginId(loginId);
-        model.addAttribute("hackoksList", hackoksByLoginId);
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageRequest = PageRequest.of(page-1, size, Sort.by(sortDirection, sortBy));
+
+        Page<Summary> summariesPage = service.getSummariesByUserId(pageRequest, loginId);
+        int currentPageNum = summariesPage.getNumber() + 1;             // 현재 페이지 번호
+        int firstPageNum = (currentPageNum % 5 == 0) ? Math.max(1, currentPageNum - 4) : currentPageNum / 5 * 5 + 1;
+        int lastPageNum = Math.max(summariesPage.getTotalPages(), (firstPageNum + 4));  // 페이지에 표시될 마지막 페이지 번호
+
+        model.addAttribute("firstPageNum", firstPageNum);
+        model.addAttribute("lastPageNum", lastPageNum);
+        model.addAttribute("currentPageNum", currentPageNum);
+        model.addAttribute("hackoksList", summariesPage.getContent());
 
         return "summary/summaryList";
     }

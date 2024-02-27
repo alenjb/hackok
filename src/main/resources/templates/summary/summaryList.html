@@ -12,7 +12,7 @@
 	<!-- Dark mode -->
 	<script>
 		const storedTheme = localStorage.getItem('theme')
- 
+
 		const getPreferredTheme = () => {
 			if (storedTheme) {
 				return storedTheme
@@ -31,38 +31,38 @@
 		setTheme(getPreferredTheme())
 
 		window.addEventListener('DOMContentLoaded', () => {
-		    var el = document.querySelector('.theme-icon-active');
+			var el = document.querySelector('.theme-icon-active');
 			if(el != 'undefined' && el != null) {
 				const showActiveTheme = theme => {
-				const activeThemeIcon = document.querySelector('.theme-icon-active use')
-				const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
-				const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
+					const activeThemeIcon = document.querySelector('.theme-icon-active use')
+					const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+					const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
 
-				document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
-					element.classList.remove('active')
-				})
-
-				btnToActive.classList.add('active')
-				activeThemeIcon.setAttribute('href', svgOfActiveBtn)
-			}
-
-			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-				if (storedTheme !== 'light' || storedTheme !== 'dark') {
-					setTheme(getPreferredTheme())
-				}
-			})
-
-			showActiveTheme(getPreferredTheme())
-
-			document.querySelectorAll('[data-bs-theme-value]')
-				.forEach(toggle => {
-					toggle.addEventListener('click', () => {
-						const theme = toggle.getAttribute('data-bs-theme-value')
-						localStorage.setItem('theme', theme)
-						setTheme(theme)
-						showActiveTheme(theme)
+					document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+						element.classList.remove('active')
 					})
+
+					btnToActive.classList.add('active')
+					activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+				}
+
+				window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+					if (storedTheme !== 'light' || storedTheme !== 'dark') {
+						setTheme(getPreferredTheme())
+					}
 				})
+
+				showActiveTheme(getPreferredTheme())
+
+				document.querySelectorAll('[data-bs-theme-value]')
+						.forEach(toggle => {
+							toggle.addEventListener('click', () => {
+								const theme = toggle.getAttribute('data-bs-theme-value')
+								localStorage.setItem('theme', theme)
+								setTheme(theme)
+								showActiveTheme(theme)
+							})
+						})
 
 			}
 		})
@@ -139,8 +139,8 @@
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
 
-<!-- =======================
-Search START -->
+	<!-- =======================
+    Search START -->
 
 	<div class="container">
 		<div class="row">
@@ -163,109 +163,116 @@ Search START -->
 		</div>
 	</div>
 
-<!-- =======================
-Search START -->
+	<!-- =======================
+    Search START -->
 
-<!-- =======================
-Cab list START -->
-<section class="pt-0">
-	<div class="container mt-4" data-sticky-container>
-		<div class="row">
-			<!-- Main content START -->
-			<div class="col-xl-12 col-xxl-12">
-				<div class="vstack gap-4">
-					<!-- Cab item START -->
-					<div class="card border p-4" th:each="hackok : ${hackoksList}">
-						<!-- Card body START -->
-						<div class="card-body p-0">
-							<div class="row g-2 g-sm-4 mb-4">
-								<!-- Card image -->
-<!--								<div class="col-md-4 col-xl-3">-->
-<!--									<div class="bg-light rounded-3 px-4 py-5">-->
-<!--										<img src="../assets/images/category/cab/seadan.svg" alt="">-->
-<!--									</div>-->
-<!--								</div>-->
+	<!-- =======================
+    Cab list START -->
+	<section class="pt-0">
+		<div class="container mt-4" data-sticky-container>
+			<div class="row">
+				<!-- Main content START -->
+				<div class="col-xl-12 col-xxl-12">
+					<div class="vstack gap-4">
+						<!-- Cab item START -->
+						<div class="card border p-4" th:each="hackok : ${hackoksList}">
+							<!-- Card body START -->
+							<div class="card-body p-0">
+								<div class="row g-2 g-sm-4 mb-4">
+									<!-- Card image -->
+									<!--								<div class="col-md-4 col-xl-3">-->
+									<!--									<div class="bg-light rounded-3 px-4 py-5">-->
+									<!--										<img src="../assets/images/category/cab/seadan.svg" alt="">-->
+									<!--									</div>-->
+									<!--								</div>-->
 
-								<!-- Card title and rating -->
-								<div class="col-sm-12 col-md-12 col-xl-12">
-									<h4 class="card-title mb-2"><a th:href="@{/view/{id}(id=${hackok.getId()})}" class="stretched-link" th:text="${hackok.title}">제목</a></h4>
-									<!-- Nav divider -->
-									<h6 th:text="${hackok.date}"> 2023 . 2 . 5</h6>
-								</div>
-							</div> <!-- Row END -->
-						</div>
-						<!-- Card body END -->
+									<!-- Card title and rating -->
+									<div class="col-sm-12 col-md-12 col-xl-12">
+										<h4 class="card-title mb-2"><a th:href="@{/view/{id}(id=${hackok.getId()})}" class="stretched-link" th:text="${hackok.title}">제목</a></h4>
+										<!-- Nav divider -->
+										<h6 th:text="${hackok.date}"> 2023 . 2 . 5</h6>
+									</div>
+								</div> <!-- Row END -->
+							</div>
+							<!-- Card body END -->
 
-						<!-- Card footer START -->
-						<div class="card-footer border-top p-0 pt-3">
-							<div class="row">
-								<!-- List -->
-								<div class="col-12">
-									<a class="btn btn-primary-soft keyword" th:each="keyword : ${hackok.keywords}" th:text="${keyword}"></a>
+							<!-- Card footer START -->
+							<div class="card-footer border-top p-0 pt-3">
+								<div class="row">
+									<!-- List -->
+									<div class="col-12">
+										<a class="btn btn-primary-soft keyword" th:each="keyword : ${hackok.keywords}" th:text="${keyword}"></a>
+									</div>
 								</div>
 							</div>
+							<!-- card footer END -->
 						</div>
-						<!-- card footer END -->
+						<!-- Cab item END -->
+						<!-- Cab item START -->
+						<!--					<div class="card border p-4">-->
+						<!--						&lt;!&ndash; Card body START &ndash;&gt;-->
+						<!--						<div class="card-body p-0">-->
+						<!--							<div class="row g-2 g-sm-4 mb-4">-->
+						<!--								&lt;!&ndash; Card image &ndash;&gt;-->
+						<!--								&lt;!&ndash;								<div class="col-md-4 col-xl-3">&ndash;&gt;-->
+						<!--								&lt;!&ndash;									<div class="bg-light rounded-3 px-4 py-5">&ndash;&gt;-->
+						<!--								&lt;!&ndash;										<img src="../assets/images/category/cab/seadan.svg" alt="">&ndash;&gt;-->
+						<!--								&lt;!&ndash;									</div>&ndash;&gt;-->
+						<!--								&lt;!&ndash;								</div>&ndash;&gt;-->
+
+						<!--								&lt;!&ndash; Card title and rating &ndash;&gt;-->
+						<!--								<div class="col-sm-6 col-md-4 col-xl-6">-->
+						<!--									<h4 class="card-title mb-2"><a href="cab-detail.html" class="stretched-link">제목</a></h4>-->
+						<!--									&lt;!&ndash; Nav divider &ndash;&gt;-->
+						<!--									<h6> 2023 . 2 . 5</h6>-->
+						<!--								</div>-->
+						<!--							</div> &lt;!&ndash; Row END &ndash;&gt;-->
+						<!--						</div>-->
+						<!--						&lt;!&ndash; Card body END &ndash;&gt;-->
+
+						<!--						&lt;!&ndash; Card footer START &ndash;&gt;-->
+						<!--						<div class="card-footer border-top p-0 pt-3">-->
+						<!--							<div class="row">-->
+						<!--								&lt;!&ndash; List &ndash;&gt;-->
+						<!--								<div class="col-md-6">-->
+						<!--									<a class="btn btn-primary-soft keyword" href="#">키워드1</a>-->
+						<!--									<a class="btn btn-primary-soft keyword" href="#">키워드2</a>-->
+						<!--									<a class="btn btn-primary-soft keyword" href="#">키워드3</a>-->
+						<!--									<a class="btn btn-primary-soft keyword" href="#">키워드4</a>-->
+						<!--									<a class="btn btn-primary-soft keyword" href="#">키워드5</a>-->
+						<!--								</div>-->
+						<!--							</div>-->
+						<!--						</div>-->
+						<!--						&lt;!&ndash; card footer END &ndash;&gt;-->
+						<!--					</div>-->
+						<!-- Cab item END -->
+						<!-- Cab item START -->
+						<!-- Pagination -->
+						<nav class="d-flex justify-content-center" aria-label="navigation">
+							<ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+								<li class="page-item mb-0" th:if="${currentPageNum > 1}">
+									<a class="page-link" th:href="@{'/list?page=' + (${currentPageNum} - 1)}" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a>
+								</li>
+
+								<!-- Thymeleaf 반복문 사용하여 페이지 번호 생성 -->
+								<li class="page-item mb-0" th:each="pageNum : ${#numbers.sequence(firstPageNum, lastPageNum)}" th:classappend="${pageNum == currentPageNum} ? 'active' : ''">
+									<a class="page-link" th:href="@{'/list?page=' + ${pageNum}}" th:text="${pageNum}" th:if="${pageNum != currentPageNum}">1</a>
+									<a class="page-link" th:href="@{'/list?page=' + ${currentPageNum}}" th:if="${pageNum == currentPageNum}" th:text="${pageNum}">1</a>
+								</li>
+								<li class="page-item mb-0" th:if="${currentPageNum < totalPages}">
+									<a class="page-link" th:href="@{'/list?page=' + (${currentPageNum} + 1)}"><i class="fa-solid fa-angle-right"></i></a>
+								</li>
+
+							</ul>
+						</nav>
 					</div>
-					<!-- Cab item END -->
-					<!-- Cab item START -->
-<!--					<div class="card border p-4">-->
-<!--						&lt;!&ndash; Card body START &ndash;&gt;-->
-<!--						<div class="card-body p-0">-->
-<!--							<div class="row g-2 g-sm-4 mb-4">-->
-<!--								&lt;!&ndash; Card image &ndash;&gt;-->
-<!--								&lt;!&ndash;								<div class="col-md-4 col-xl-3">&ndash;&gt;-->
-<!--								&lt;!&ndash;									<div class="bg-light rounded-3 px-4 py-5">&ndash;&gt;-->
-<!--								&lt;!&ndash;										<img src="../assets/images/category/cab/seadan.svg" alt="">&ndash;&gt;-->
-<!--								&lt;!&ndash;									</div>&ndash;&gt;-->
-<!--								&lt;!&ndash;								</div>&ndash;&gt;-->
-
-<!--								&lt;!&ndash; Card title and rating &ndash;&gt;-->
-<!--								<div class="col-sm-6 col-md-4 col-xl-6">-->
-<!--									<h4 class="card-title mb-2"><a href="cab-detail.html" class="stretched-link">제목</a></h4>-->
-<!--									&lt;!&ndash; Nav divider &ndash;&gt;-->
-<!--									<h6> 2023 . 2 . 5</h6>-->
-<!--								</div>-->
-<!--							</div> &lt;!&ndash; Row END &ndash;&gt;-->
-<!--						</div>-->
-<!--						&lt;!&ndash; Card body END &ndash;&gt;-->
-
-<!--						&lt;!&ndash; Card footer START &ndash;&gt;-->
-<!--						<div class="card-footer border-top p-0 pt-3">-->
-<!--							<div class="row">-->
-<!--								&lt;!&ndash; List &ndash;&gt;-->
-<!--								<div class="col-md-6">-->
-<!--									<a class="btn btn-primary-soft keyword" href="#">키워드1</a>-->
-<!--									<a class="btn btn-primary-soft keyword" href="#">키워드2</a>-->
-<!--									<a class="btn btn-primary-soft keyword" href="#">키워드3</a>-->
-<!--									<a class="btn btn-primary-soft keyword" href="#">키워드4</a>-->
-<!--									<a class="btn btn-primary-soft keyword" href="#">키워드5</a>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
-<!--						&lt;!&ndash; card footer END &ndash;&gt;-->
-<!--					</div>-->
-					<!-- Cab item END -->
-					<!-- Cab item START -->
-					<!-- Pagination -->
-					<nav class="d-flex justify-content-center" aria-label="navigation">
-						<ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
-							<li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
-							<li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#">..</a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#">6</a></li>
-							<li class="page-item mb-0"><a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a></li>
-						</ul>
-					</nav>
 				</div>
-			</div>
-			<!-- Main content END -->
-		</div> <!-- Row END -->
-	</div>
-</section>
-<!-- =======================
-Cab list END -->
+				<!-- Main content END -->
+			</div> <!-- Row END -->
+		</div>
+	</section>
+	<!-- =======================
+    Cab list END -->
 
 </main>
 <!-- **************** MAIN CONTENT END **************** -->

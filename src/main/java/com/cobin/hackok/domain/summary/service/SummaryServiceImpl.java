@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.flashvayne.chatgpt.service.ChatgptService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -207,8 +208,8 @@ public class SummaryServiceImpl implements SummaryService{
      * 핵콕을 1개씩 조회하는 기능
      */
     @Override
-    public Summary getHackokByLoginId(String loginId) {
-        return summaryRepository.findSummaryByUserId(loginId);
+    public Summary getHackokByLoginId(String loginId, ObjectId id) {
+        return summaryRepository.findSummaryByUserIdAndId(loginId, id);
     }
 
     /**

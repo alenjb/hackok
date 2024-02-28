@@ -40,7 +40,7 @@ public interface SummaryService {
     /**
      * 핵콕을 1개씩 조회하는 기능
      */
-    public Summary getHackokByLoginId(String loginId);
+    public Summary getHackokByLoginId(String loginId, ObjectId id);
 
     /**
      * 핵콕 리스트 페이지 네이션 기능

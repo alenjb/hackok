@@ -13,7 +13,7 @@ import java.util.List;
 public interface SummaryRepository extends MongoRepository<Summary, ObjectId> {
 
     // 1-1. 핵콕 1개 조회
-    Summary findSummaryByUserId(String userId);
+    Summary findSummaryByUserIdAndId(String userId, ObjectId id);
 
     // 1-2 사용자의 모든 핵콕 조회
     List<Summary> findSummariesByUserIdOrderByIdDesc(String userId);

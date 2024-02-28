@@ -47,4 +47,9 @@ public class MemberServiceImpl implements MemberService{
         }
         return findMember;
     }
+
+    @Override
+    public Optional<Member> readMyInfo(String loginId) {
+        return memberRepository.findByLoginId(loginId);
+    }
 }

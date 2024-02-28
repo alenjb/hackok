@@ -9,4 +9,6 @@ public interface MemberService {
     Member login(Member member);    // 로그인
     Optional<Member> findPasswordByLoginIdAndName(String loginId, String name);   // 비밀번호 찾기
 
+    Optional<Member> readMyInfo(String loginId); // 내정보 읽기(가져오기)
+
 }

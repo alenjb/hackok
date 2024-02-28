@@ -5,6 +5,7 @@ import com.cobin.hackok.domain.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,6 +86,19 @@ public class MemberLoginController {
     public String logout(HttpServletRequest request){
         request.getSession().invalidate();  // 세션 무효화
         return "redirect:/login";
+    }
+
+    //5. 마이페이지
+
+    //5-1. 마이페이지 read
+    @GetMapping("/mypage")
+    public String readMyInfo(HttpSession session, Model model){
+        Member member = (Member) session.getAttribute("loginMember");
+        String loginId = member.getLoginId();
+
+        Optional<Member> memberInfo = service.readMyInfo(loginId);
+        model.addAttribute("member", memberInfo);
+        return "/myPage/myInfoPage";
     }
 
 

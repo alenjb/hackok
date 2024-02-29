@@ -12,4 +12,5 @@ public interface MemberService {
     Optional<Member> readMyInfo(String loginId); // 내정보 읽기(가져오기)
     
     Member changePassword(Member member);   // 비밀번호 변경
+    Member changeMemberInfo(Member member);   // 회원정보 변경
 }

@@ -57,4 +57,8 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.updateById(member.getId(), member);
     }
 
+    @Override
+    public Member changeMemberInfo(Member member) {
+        return memberRepository.updateById(member.getId(), member);
+    }
 }

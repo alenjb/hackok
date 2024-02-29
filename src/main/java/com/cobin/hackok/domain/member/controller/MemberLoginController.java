@@ -127,5 +127,38 @@ public class MemberLoginController {
         return "/myPage/myInfoPage";
     }
 
+    //5-3-1. 회원정보 updateForm
+    @GetMapping("/changeInfoForm")
+    public String changeInfoForm(HttpSession session, Model model){
+        Member member = (Member) session.getAttribute("loginMember");
+        String loginId = member.getLoginId();
+
+        Optional<Member> memberInfo = service.readMyInfo(loginId);
+        memberInfo.ifPresent(value -> model.addAttribute("member", value));
+        return "/myPage/changeInfoForm";
+    }
+
+    //5-3-2. 회원정보 update
+    @PostMapping("/changeInfo")
+    public String changeInfo(HttpSession session, @RequestParam(name = "name") String name, @RequestParam(name = "birthday") String birthday,
+                             @RequestParam(name = "mobileNumber") String mobileNumber, @RequestParam(name = "gender") String gender,
+                             @RequestParam(name = "address") String address, Model model){
+        Member member = (Member) session.getAttribute("loginMember");
+        String loginId = member.getLoginId();
+
+        Optional<Member> memberInfo = service.readMyInfo(loginId);
+        if(memberInfo.isPresent()){
+            Member newMember = memberInfo.get();
+            newMember.setName(name);
+            newMember.setBirthday(birthday);
+            newMember.setAddress(address);
+            newMember.setGender(gender);
+            newMember.setAddress(address);
+            service.changeMemberInfo(newMember);
+        }
+        return "/myPage/myInfoPage";
+    }
+
+
 
 }

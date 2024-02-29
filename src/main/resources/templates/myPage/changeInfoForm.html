@@ -211,27 +211,27 @@
 									<!-- 이름 -->
 									<div class="col-md-6">
 										<label class="form-label korean-font-bold">이름<span class="text-danger">*</span></label>
-										<input type="text" class="form-control korean-font input-info" disabled th:value="${member.name}" style="background-color: white">
+										<input type="text" class="form-control korean-font input-info" th:value="${member.name}" style="background-color: white" th:name="name">
 									</div>
 
 
 									<!-- 휴대폰 번호 -->
 									<div class="col-md-6">
 										<label class="form-label korean-font-bold">휴대폰 번호<span class="text-danger">*</span></label>
-										<input type="text" class="form-control korean-font input-info" disabled th:value="${member.mobileNumber}" style="background-color: white">
+										<input type="text" class="form-control korean-font input-info" th:value="${member.mobileNumber}" style="background-color: white" th:name="mobileNumber">
 									</div>
 
 
 									<!-- 생년월일 -->
 									<div class="col-md-6">
 										<label class="form-label korean-font-bold">생년월일<span class="text-danger">*</span></label>
-										<input type="text" class="form-control flatpickr korean-font input-info" data-date-format="Y년 M d일" disabled th:value="${member.birthday}">
+										<input type="text" class="form-control flatpickr korean-font input-info" data-date-format="Y년 M d일" th:value="${member.birthday}" name="birthday">
 									</div>
 
 									<!-- 가입일자 -->
 									<div class="col-md-6">
 										<label class="form-label korean-font-bold">가입일자</label>
-										<input type="text" class="form-control flatpickr korean-font input-info" data-date-format="Y년 M d일" disabled="disabled" th:value="${member.joinDay}">
+										<input type="text" class="form-control flatpickr korean-font input-info" data-date-format="Y년 M d일" disabled="disabled" th:value="${member.joinDay}" name="joinDay">
 									</div>
 
 									<!-- 성별 -->
@@ -239,13 +239,13 @@
 										<label class="form-label korean-font-bold">성별</label>
 										<div class="d-flex gap-4">
 											<div class="form-check radio-bg-light">
-												<input class="form-check-input input-info" type="radio" name="flexRadioDefault" id="flexRadioDefault1" disabled th:checked="${member.gender == '남자'}">
+												<input class="form-check-input input-info" type="radio" name="flexRadioDefault" id="flexRadioDefault1" th:checked="${member.gender == '남자'}" th:name="gender" th:value="'남자'">
 												<label class="form-check-label korean-font " for="flexRadioDefault1">
 													남자
 												</label>
 											</div>
 											<div class="form-check radio-bg-light">
-												<input class="form-check-input input-info" type="radio" name="flexRadioDefault" id="flexRadioDefault2" disabled th:checked="${member.gender == '여자'}">
+												<input class="form-check-input input-info" type="radio" name="flexRadioDefault" id="flexRadioDefault2" th:checked="${member.gender == '여자'}" th:name="gender" th:value="'여자'">
 												<label class="form-check-label korean-font" for="flexRadioDefault2">
 													여자
 												</label>
@@ -256,13 +256,13 @@
 									<!-- 회원등급 -->
 									<div class="col-md-6">
 										<label class="form-label korean-font-bold">회원등급</label>
-										<input type="text" class="form-control input-info" disabled th:value="${member.memberGrade}" style="background-color: white">
+										<input type="text" class="form-control input-info" name="memberGrade" disabled th:value="${member.memberGrade}" style="background-color: white">
 									</div>
 
 									<!-- 주소 -->
 									<div class="col-12">
 										<label class="form-label korean-font-bold">주소</label>
-										<textarea class="form-control korean-font input-info" rows="2" spellcheck="false" disabled th:value="${member.address}" style="background-color: white"></textarea>
+										<textarea class="form-control korean-font input-info" name="address" rows="2" spellcheck="false" th:value="${member.address}" style="background-color: white"></textarea>
 									</div>
 								</form>
 								<!-- Form END -->

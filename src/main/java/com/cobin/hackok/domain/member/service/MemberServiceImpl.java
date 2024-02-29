@@ -3,7 +3,6 @@ package com.cobin.hackok.domain.member.service;
 import com.cobin.hackok.domain.member.dto.Member;
 import com.cobin.hackok.domain.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,4 +51,10 @@ public class MemberServiceImpl implements MemberService{
     public Optional<Member> readMyInfo(String loginId) {
         return memberRepository.findByLoginId(loginId);
     }
+
+    @Override
+    public Member changePassword(Member member) {
+        return memberRepository.updateById(member.getId(), member);
+    }
+
 }

@@ -97,7 +97,33 @@ public class MemberLoginController {
         String loginId = member.getLoginId();
 
         Optional<Member> memberInfo = service.readMyInfo(loginId);
-        model.addAttribute("member", memberInfo);
+        memberInfo.ifPresent(value -> model.addAttribute("member", value));
+        return "/myPage/myInfoPage";
+    }
+
+    //5-2-1. 비밀번호 updateForm
+    @GetMapping("/changePasswordForm")
+    public String changePasswordForm(HttpSession session, Model model){
+        Member member = (Member) session.getAttribute("loginMember");
+        String loginId = member.getLoginId();
+
+        Optional<Member> memberInfo = service.readMyInfo(loginId);
+        memberInfo.ifPresent(value -> model.addAttribute("member", value));
+        return "/myPage/changePasswordForm";
+    }
+
+    //5-2-2. 비밀번호 update
+    @PostMapping("/changePassword")
+    public String changePassword(HttpSession session, @RequestParam(name = "newPassword") String newPassword, Model model){
+        Member member = (Member) session.getAttribute("loginMember");
+        String loginId = member.getLoginId();
+
+        Optional<Member> memberInfo = service.readMyInfo(loginId);
+        if(memberInfo.isPresent()){
+            Member newMember = memberInfo.get();
+            newMember.setPassword(newPassword);
+            service.changePassword(newMember);
+        }
         return "/myPage/myInfoPage";
     }
 

@@ -54,11 +54,11 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member changePassword(Member member) {
-        return memberRepository.updateById(member.getId(), member);
+        return memberRepository.save(member);
     }
 
     @Override
     public Member changeMemberInfo(Member member) {
-        return memberRepository.updateById(member.getId(), member);
+        return memberRepository.save(member);
     }
 }

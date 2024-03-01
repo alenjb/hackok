@@ -164,13 +164,13 @@
 									<!-- Sidebar menu item START -->
 									<ul class="nav nav-pills-primary-soft flex-column">
 										<li class="nav-item">
-											<a class="nav-link active korean-font-bold" href="account-profile.html"><i class="bi bi-person fa-fw me-2"></i>내 정보</a>
+											<a class="nav-link korean-font-bold" href="/mypage"><i class="bi bi-person fa-fw me-2"></i>내 정보</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link korean-font-bold" href="account-settings.html"><i class="bi bi-gear fa-fw me-2"></i>회원정보 변경</a>
+											<a class="nav-link korean-font-bold active" href="/changeInfoForm"><i class="bi bi-gear fa-fw me-2"></i>회원정보 변경</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link korean-font-bold" href="account-settings.html"><i class="bi bi-key fa-fw me-2"></i>비밀번호 변경</a>
+											<a class="nav-link korean-font-bold" href="/changePasswordForm"><i class="bi bi-key fa-fw me-2"></i>비밀번호 변경</a>
 										</li>
 										<li class="nav-item">
 											<a class="nav-link text-danger bg-danger-soft-hover korean-font-bold" href="#"><i class="fas fa-sign-out-alt fa-fw me-2"></i>회원 탈퇴</a>
@@ -207,7 +207,7 @@
 							<!-- Card body START -->
 							<div class="card-body">
 								<!-- Form START -->
-								<form class="row g-3">
+								<form class="row g-3" action="/changeInfo">
 									<!-- 이름 -->
 									<div class="col-md-6">
 										<label class="form-label korean-font-bold">이름<span class="text-danger">*</span></label>
@@ -264,6 +264,11 @@
 										<label class="form-label korean-font-bold">주소</label>
 										<textarea class="form-control korean-font input-info" name="address" rows="2" spellcheck="false" th:value="${member.address}" style="background-color: white"></textarea>
 									</div>
+
+									<div class="text-end">
+										<button class="btn btn-primary mb-0 korean-font-bold">회원정보 변경</button>
+									</div>
+
 								</form>
 								<!-- Form END -->
 							</div>
@@ -285,6 +290,34 @@
 
 <!-- Back to top -->
 <div class="back-top"></div>
+
+<!-- Navbar mobile START -->
+<div class="navbar navbar-mobile">
+	<ul class="navbar-nav">
+		<!-- Nav item 최근기록 -->
+		<li class="nav-item">
+			<a class="nav-link" href="/list" id="left-nav-item"><i class="bi bi-bookmark fa-fw"></i>
+				<span class="mb-0 nav-text korean-font-bold">최근 기록</span>
+			</a>
+		</li>
+
+		<!-- Nav item 홈 -->
+		<li class="nav-item">
+			<a class="nav-link active" href="/" ><i class="bi bi-house-door fa-fw"></i>
+				<span class="mb-0 nav-text korean-font-bold">홈</span>
+			</a>
+		</li>
+
+		<!-- Nav item 내 계정 -->
+		<li class="nav-item">
+			<a class="nav-link" href="/mypage" id="right-nav-item"><i class="bi bi-person-circle fa-fw"></i>
+				<span class="mb-0 nav-text korean-font-bold">내 계정</span>
+			</a>
+		</li>
+	</ul>
+</div>
+<!-- Navbar mobile END -->
+
 
 <!-- Bootstrap JS -->
 <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

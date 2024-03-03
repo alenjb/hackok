@@ -160,10 +160,11 @@ public class MemberLoginController {
     }
 
     //6. 회원 탈퇴 delete
-    @PostMapping("/deleteaccount")
+    @PostMapping("/myPage/deleteaccount")
     public String deleteAccountWithMember(HttpServletRequest request){
+        Member member = (Member) request.getSession().getAttribute("loginMember");
         request.getSession().invalidate();  // 세션 무효화
-
+        service.deleteAccount(member);
         return "redirect:/login";
     }
 

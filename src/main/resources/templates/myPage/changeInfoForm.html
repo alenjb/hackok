@@ -193,8 +193,8 @@
 
 					<!-- Offcanvas menu button -->
 					<div class="d-grid mb-0 d-lg-none w-100">
-						<button class="btn btn-primary mb-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
-							<i class="fas fa-sliders-h"></i> Menu
+						<button class="btn btn-primary mb-4 korean-font-bold" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+							<i class="fas fa-sliders-h"></i> 메뉴
 						</button>
 					</div>
 
@@ -286,40 +286,39 @@
 	</section>
 	<!-- =======================
     Content END -->
+	<section style="padding: 30px 0px 30px 0px;">
+		<!-- Navbar mobile START -->
+		<div class="navbar navbar-mobile">
+			<ul class="navbar-nav">
+				<!-- Nav item 최근기록 -->
+				<li class="nav-item">
+					<a class="nav-link" href="/list" id="left-nav-item"><i class="bi bi-bookmark fa-fw"></i>
+						<span class="mb-0 nav-text korean-font-bold">최근 기록</span>
+					</a>
+				</li>
 
+				<!-- Nav item 홈 -->
+				<li class="nav-item">
+					<a class="nav-link" href="/" ><i class="bi bi-house-door fa-fw"></i>
+						<span class="mb-0 nav-text korean-font-bold">홈</span>
+					</a>
+				</li>
+
+				<!-- Nav item 내 계정 -->
+				<li class="nav-item">
+					<a class="nav-link active" href="/mypage" id="right-nav-item"><i class="bi bi-person-circle fa-fw"></i>
+						<span class="mb-0 nav-text korean-font-bold">내 계정</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!-- Navbar mobile END -->
+	</section>
 </main>
 <!-- **************** MAIN CONTENT END **************** -->
 
 <!-- Back to top -->
 <div class="back-top"></div>
-
-<!-- Navbar mobile START -->
-<div class="navbar navbar-mobile">
-	<ul class="navbar-nav">
-		<!-- Nav item 최근기록 -->
-		<li class="nav-item">
-			<a class="nav-link" href="/list" id="left-nav-item"><i class="bi bi-bookmark fa-fw"></i>
-				<span class="mb-0 nav-text korean-font-bold">최근 기록</span>
-			</a>
-		</li>
-
-		<!-- Nav item 홈 -->
-		<li class="nav-item">
-			<a class="nav-link" href="/" ><i class="bi bi-house-door fa-fw"></i>
-				<span class="mb-0 nav-text korean-font-bold">홈</span>
-			</a>
-		</li>
-
-		<!-- Nav item 내 계정 -->
-		<li class="nav-item">
-			<a class="nav-link active" href="/mypage" id="right-nav-item"><i class="bi bi-person-circle fa-fw"></i>
-				<span class="mb-0 nav-text korean-font-bold">내 계정</span>
-			</a>
-		</li>
-	</ul>
-</div>
-<!-- Navbar mobile END -->
-
 
 <!-- Bootstrap JS -->
 <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -334,52 +333,60 @@
 
 </body>
 </html><script>
-	(function() {
-		var ws = new WebSocket('ws://' + window.location.host +
-				'/jb-server-page?reloadMode=RELOAD_ON_SAVE&'+
-				'referrer=' + encodeURIComponent(window.location.pathname));
-		ws.onmessage = function (msg) {
-			if (msg.data === 'reload') {
-				window.location.reload();
-			}
-			if (msg.data.startsWith('update-css ')) {
-				var messageId = msg.data.substring(11);
-				var links = document.getElementsByTagName('link');
-				for (var i = 0; i < links.length; i++) {
-					var link = links[i];
-					if (link.rel !== 'stylesheet') continue;
-					var clonedLink = link.cloneNode(true);
-					var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
-					if (newHref !== link.href) {
-						clonedLink.href = newHref;
-					}
-					else {
-						var indexOfQuest = newHref.indexOf('?');
-						if (indexOfQuest >= 0) {
-							// to support ?foo#hash
-							clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
-									newHref.substring(indexOfQuest + 1);
-						}
-						else {
-							clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
-						}
-					}
-					link.replaceWith(clonedLink);
-				}
-			}
-		};
-	})();
-	// JavaScript
+	// (function() {
+	// 	var ws = new WebSocket('ws://' + window.location.host +
+	// 			'/jb-server-page?reloadMode=RELOAD_ON_SAVE&'+
+	// 			'referrer=' + encodeURIComponent(window.location.pathname));
+	// 	ws.onmessage = function (msg) {
+	// 		if (msg.data === 'reload') {
+	// 			window.location.reload();
+	// 		}
+	// 		if (msg.data.startsWith('update-css ')) {
+	// 			var messageId = msg.data.substring(11);
+	// 			var links = document.getElementsByTagName('link');
+	// 			for (var i = 0; i < links.length; i++) {
+	// 				var link = links[i];
+	// 				if (link.rel !== 'stylesheet') continue;
+	// 				var clonedLink = link.cloneNode(true);
+	// 				var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+	// 				if (newHref !== link.href) {
+	// 					clonedLink.href = newHref;
+	// 				}
+	// 				else {
+	// 					var indexOfQuest = newHref.indexOf('?');
+	// 					if (indexOfQuest >= 0) {
+	// 						// to support ?foo#hash
+	// 						clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
+	// 								newHref.substring(indexOfQuest + 1);
+	// 					}
+	// 					else {
+	// 						clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+	// 					}
+	// 				}
+	// 				link.replaceWith(clonedLink);
+	// 			}
+	// 		}
+	// 	};
+	// })();
 	document.getElementById("deleteaccount-btn").addEventListener("click", function(event) {
 		event.preventDefault(); // Prevent default link behavior
 
-		// Confirmation dialog
 		var confirmation = confirm("회원 탈퇴를 진행하시겠습니까?");
 
 		if (confirmation) {
 			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "/deleteaccount", true);
+			xhr.open("POST", "/myPage/deleteaccount", true);
 			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === XMLHttpRequest.DONE) {
+					if (xhr.status === 200) {
+						window.location.href = "/login"; // Replace with your desired redirect URL
+					} else {
+						// Handle error response
+						console.error("회원 탈퇴 요청 중 오류 발생");
+					}
+				}
+			};
 			xhr.send();
 		} else {
 			console.log("회원 탈퇴 요청이 취소되었습니다.");

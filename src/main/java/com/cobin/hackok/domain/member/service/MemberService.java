@@ -13,4 +13,5 @@ public interface MemberService {
     
     Member changePassword(Member member);   // 비밀번호 변경
     Member changeMemberInfo(Member member);   // 회원정보 변경
+    void deleteAccount(Member member);        // 회원 탈퇴
 }

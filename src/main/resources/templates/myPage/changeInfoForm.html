@@ -65,8 +65,7 @@
 						})
 
 			}
-		})
-
+		});
 	</script>
 
 	<!-- Favicon -->
@@ -88,6 +87,8 @@
 	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
 
 </head>
+
+
 
 <body class="dashboard">
 <!-- Header START -->
@@ -173,7 +174,8 @@
 											<a class="nav-link korean-font-bold" href="/changePasswordForm"><i class="bi bi-key fa-fw me-2"></i>비밀번호 변경</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link text-danger bg-danger-soft-hover korean-font-bold" href="#"><i class="fas fa-sign-out-alt fa-fw me-2"></i>회원 탈퇴</a>
+											<!-- HTML -->
+											<a id="deleteaccount-btn" class="nav-link text-danger bg-danger-soft-hover korean-font-bold" href="#"><i class="fas fa-sign-out-alt fa-fw me-2"></i>회원 탈퇴</a>
 										</li>
 									</ul>
 									<!-- Sidebar menu item END -->
@@ -367,4 +369,20 @@
 			}
 		};
 	})();
+	// JavaScript
+	document.getElementById("deleteaccount-btn").addEventListener("click", function(event) {
+		event.preventDefault(); // Prevent default link behavior
+
+		// Confirmation dialog
+		var confirmation = confirm("회원 탈퇴를 진행하시겠습니까?");
+
+		if (confirmation) {
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/deleteaccount", true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.send();
+		} else {
+			console.log("회원 탈퇴 요청이 취소되었습니다.");
+		}
+	});
 </script>

@@ -61,4 +61,10 @@ public class MemberServiceImpl implements MemberService{
     public Member changeMemberInfo(Member member) {
         return memberRepository.save(member);
     }
+
+    @Override
+    public void deleteAccount(Member member) {
+        memberRepository.delete(member);
+    }
+
 }

@@ -159,6 +159,14 @@ public class MemberLoginController {
         return "/myPage/myInfoPage";
     }
 
+    //6. 회원 탈퇴 delete
+    @PostMapping("/deleteaccount")
+    public String deleteAccountWithMember(HttpServletRequest request){
+        request.getSession().invalidate();  // 세션 무효화
+
+        return "redirect:/login";
+    }
+
 
 
 }

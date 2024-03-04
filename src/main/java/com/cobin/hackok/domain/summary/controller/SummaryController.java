@@ -103,17 +103,19 @@ public class SummaryController {
         model.addAttribute("memberId", memberId);
         model.addAttribute("loginId", loginId);
 
-        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("asc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageRequest = PageRequest.of(page-1, size, Sort.by(sortDirection, sortBy));
 
         Page<Summary> summariesPage = service.getSummariesByUserId(pageRequest, loginId);
         int currentPageNum = summariesPage.getNumber() + 1;             // 현재 페이지 번호
         int firstPageNum = (currentPageNum % 5 == 0) ? Math.max(1, currentPageNum - 4) : currentPageNum / 5 * 5 + 1;
-        int lastPageNum = Math.max(summariesPage.getTotalPages(), (firstPageNum + 4));  // 페이지에 표시될 마지막 페이지 번호
+        int totalPageNum = summariesPage.getTotalPages();   // 총 페이지 개수
+        int lastPageNum = Math.min(summariesPage.getTotalPages(), (firstPageNum + 4));  // 페이지에 표시될 마지막 페이지 번호
 
         model.addAttribute("firstPageNum", firstPageNum);
         model.addAttribute("lastPageNum", lastPageNum);
         model.addAttribute("currentPageNum", currentPageNum);
+        model.addAttribute("totalPageNum", totalPageNum);
         model.addAttribute("hackoksList", summariesPage.getContent());
 
         return "summary/summaryList";

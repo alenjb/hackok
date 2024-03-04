@@ -341,8 +341,7 @@ Steps START -->
 										<!-- Card body -->
 										<div class="card-body text-center justify-content-between">
 											<!-- Button -->
-											<a href="https://search.naver.com/search.naver?query=${keyword1}" class="btn btn-primary korean-font-bold keyword" th:each="keyword : ${hackok.keywords}"
-											   th:text="${keyword}">키워드1</a>
+											<a th:href="@{'https://search.naver.com/search.naver?query=' + ${keyword}}" class="btn btn-primary korean-font-bold keyword" th:each="keyword : ${hackok.keywords}" th:text="${keyword}">키워드1</a>
 										</div>
 									</div>
 									<!-- Paypal END -->

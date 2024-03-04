@@ -251,18 +251,16 @@
 						<nav class="d-flex justify-content-center" aria-label="navigation">
 							<ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
 								<li class="page-item mb-0" th:if="${currentPageNum > 1}">
-									<a class="page-link" th:href="@{'/list?page=' + (${currentPageNum} - 1)}" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a>
+									<a class="page-link" th:href="@{'/list?page=' + ${currentPageNum - 1}}" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a>
 								</li>
-
 								<!-- Thymeleaf 반복문 사용하여 페이지 번호 생성 -->
 								<li class="page-item mb-0" th:each="pageNum : ${#numbers.sequence(firstPageNum, lastPageNum)}" th:classappend="${pageNum == currentPageNum} ? 'active' : ''">
 									<a class="page-link" th:href="@{'/list?page=' + ${pageNum}}" th:text="${pageNum}" th:if="${pageNum != currentPageNum}">1</a>
 									<a class="page-link" th:href="@{'/list?page=' + ${currentPageNum}}" th:if="${pageNum == currentPageNum}" th:text="${pageNum}">1</a>
 								</li>
-								<li class="page-item mb-0" th:if="${currentPageNum < totalPages}">
-									<a class="page-link" th:href="@{'/list?page=' + (${currentPageNum} + 1)}"><i class="fa-solid fa-angle-right"></i></a>
+								<li class="page-item mb-0" th:if="${currentPageNum < totalPageNum}">
+									<a class="page-link" th:href="@{'/list?page=' + ${currentPageNum+1}}"><i class="fa-solid fa-angle-right"></i></a>
 								</li>
-
 							</ul>
 						</nav>
 					</div>

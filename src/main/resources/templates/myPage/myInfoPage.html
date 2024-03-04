@@ -359,7 +359,7 @@
 	// 	};
 	// })();
 	document.getElementById("deleteaccount-btn").addEventListener("click", function(event) {
-		event.preventDefault(); // Prevent default link behavior
+		event.preventDefault();
 
 		var confirmation = confirm("회원 탈퇴를 진행하시겠습니까?");
 
@@ -370,9 +370,8 @@
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState === XMLHttpRequest.DONE) {
 					if (xhr.status === 200) {
-						window.location.href = "/login"; // Replace with your desired redirect URL
+						window.location.href = "/login";
 					} else {
-						// Handle error response
 						console.error("회원 탈퇴 요청 중 오류 발생");
 					}
 				}

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -114,7 +115,8 @@ public class MemberLoginController {
 
     //5-2-2. 비밀번호 update
     @PostMapping("/changePassword")
-    public String changePassword(HttpSession session, @RequestParam(name = "newPassword") String newPassword, Model model){
+    public String changePassword(HttpSession session, @RequestParam(name = "oldPassword") String oldPassword,
+                                 @RequestParam(name = "newPassword") String newPassword, Model model){
         Member member = (Member) session.getAttribute("loginMember");
         String loginId = member.getLoginId();
 
@@ -124,8 +126,18 @@ public class MemberLoginController {
             newMember.setPassword(newPassword);
             service.changePassword(newMember);
         }
-        return "/myPage/myInfoPage";
+        return "redirect:/mypage";
     }
+
+    //5-2-3. 현재 비밀번호 확인
+    @PostMapping("/confirmPassword")
+    public boolean confirmPassword(HttpSession session, @RequestParam(name = "oldPassword") String oldPassword, Model model){
+        Member member = (Member) session.getAttribute("loginMember");
+        log.info("html비번 " +oldPassword);
+        log.info(member.getPassword());
+        return member.getPassword().equals(oldPassword);
+    }
+
 
     //5-3-1. 회원정보 updateForm
     @GetMapping("/changeInfoForm")

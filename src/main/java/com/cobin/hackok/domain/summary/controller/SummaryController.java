@@ -33,8 +33,9 @@ public class SummaryController {
         this.service = service;
         this.chatgptService = chatgptService;
     }
+    @GetMapping("")
     public String home(HttpServletRequest request, HttpSession session){
-        if(request.getSession(false) == null) return "/login";
+        if(request.getSession(false).getAttribute("loginMember") == null) return "redirect:login";
         return "index";
     }
     // 0. API를 통한 요약 요청

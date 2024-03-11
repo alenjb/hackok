@@ -466,7 +466,7 @@ $navbar-nav-link-font-size:         $font-size-base;
 $navbar-nav-link-font-weight:       $font-weight-normal;
 $navbar-nav-link-text-transform:    capitalize;
 
-$navbar-brand-height:               40px; //Logo height
+$navbar-brand-height:               60px; //Logo height
 $navbar-brand-padding-y:            30px;
 $nav-link-line-height:              $navbar-brand-padding-y * 2 + $navbar-brand-height;
 
@@ -474,7 +474,7 @@ $navbar-brand-height-sticky:        35px; //sticky Logo height
 $navbar-brand-padding-y-sticky:     14px;
 $nav-link-line-height-sticky:       $navbar-brand-padding-y-sticky * 2 + $navbar-brand-height-sticky;
 
-$navbar-mobile-brand-height:        30px; //mobile Logo height
+$navbar-mobile-brand-height:        40px; //mobile Logo height
 $navbar-mobile-brand-padding-y:     20px;
 
 $navbar-toggler-padding-x:          0;

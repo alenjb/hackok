@@ -131,11 +131,13 @@ public class MemberLoginController {
 
     //5-2-3. 현재 비밀번호 확인
     @PostMapping("/confirmPassword")
-    public boolean confirmPassword(HttpSession session, @RequestParam(name = "oldPassword") String oldPassword, Model model){
+    @ResponseBody
+    public int confirmPassword(HttpSession session, @RequestParam(name = "oldPassword") String oldPassword, Model model){
         Member member = (Member) session.getAttribute("loginMember");
         log.info("html비번 " +oldPassword);
         log.info(member.getPassword());
-        return member.getPassword().equals(oldPassword);
+        if (member.getPassword().equals(oldPassword)) return 1;
+        else return 0;
     }
 
 

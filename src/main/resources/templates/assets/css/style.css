@@ -18126,7 +18126,7 @@ a.badge:hover {
     z-index: 1100 !important;
   }
   .navbar-expand-xl .navbar-brand .navbar-brand-item {
-    height: 40px;
+    height: 60px;
     display: block;
     width: auto;
   }
@@ -18215,7 +18215,7 @@ a.badge:hover {
 }
 @media (max-width: 1199.98px) {
   .navbar-expand-xl .navbar-brand .navbar-brand-item {
-    height: 30px;
+    height: 40px;
   }
   .navbar-expand-xl .navbar-brand {
     padding: 20px 0;

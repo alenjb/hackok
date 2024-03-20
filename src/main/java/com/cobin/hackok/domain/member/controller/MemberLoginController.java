@@ -99,7 +99,7 @@ public class MemberLoginController {
 
         Optional<Member> memberInfo = service.readMyInfo(loginId);
         memberInfo.ifPresent(value -> model.addAttribute("member", value));
-        return "/myPage/myInfoPage";
+        return "myPage/myInfoPage";
     }
 
     //5-2-1. 비밀번호 updateForm
@@ -110,7 +110,7 @@ public class MemberLoginController {
 
         Optional<Member> memberInfo = service.readMyInfo(loginId);
         memberInfo.ifPresent(value -> model.addAttribute("member", value));
-        return "/myPage/changePasswordForm";
+        return "myPage/changePasswordForm";
     }
 
     //5-2-2. 비밀번호 update
@@ -149,7 +149,7 @@ public class MemberLoginController {
 
         Optional<Member> memberInfo = service.readMyInfo(loginId);
         memberInfo.ifPresent(value -> model.addAttribute("member", value));
-        return "/myPage/changeInfoForm";
+        return "myPage/changeInfoForm";
     }
 
     //5-3-2. 회원정보 update
@@ -170,7 +170,7 @@ public class MemberLoginController {
             newMember.setAddress(address);
             service.changeMemberInfo(newMember);
         }
-        return "/myPage/myInfoPage";
+        return "myPage/myInfoPage";
     }
 
     //6. 회원 탈퇴 delete

@@ -87,7 +87,7 @@ public class SummaryController {
             redirectAttributes.addFlashAttribute("error", "핵콕 저장 과정에 오류가 발생하였습니다.");
             return "redirect:/summary/summaryByText";
         }
-        return "/index";
+        return "index";
     }
 
     // 3. 핵콕 리스트 조회(최근 기록)
@@ -132,7 +132,7 @@ public class SummaryController {
         Summary hackokByLoginId = service.getHackokByLoginId(loginId, hackokId);
         if(hackokByLoginId.getUserId().equals(loginId)){    // 자신의 게시물이 맞는 경우
             model.addAttribute("hackok", hackokByLoginId);
-            return "/summary/summaryDetailByText";
+            return "summary/summaryDetailByText";
         }else {     // 자신의 게시물이 아닌 경우
             return "summary/summaryList";
         }

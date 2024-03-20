@@ -165,9 +165,7 @@ public class MemberLoginController {
             Member newMember = memberInfo.get();
             newMember.setName(name);
             newMember.setBirthday(birthday);
-            newMember.setAddress(address);
             newMember.setGender(gender);
-            newMember.setAddress(address);
             service.changeMemberInfo(newMember);
         }
         return "myPage/myInfoPage";

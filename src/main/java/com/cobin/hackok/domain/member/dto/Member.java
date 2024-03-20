@@ -19,9 +19,6 @@ public class Member {
     private String name;        //이름
     @NotBlank private String password;    //비밀번호
     private String birthday;    //생년월일
-    private String joinDay;     //가입 날짜
-    private MemberGrade memberGrade;   //회원등급
     private String mobileNumber;    //휴대폰 번호
     private String gender;  // 성별
-    private String address; //주소
 }

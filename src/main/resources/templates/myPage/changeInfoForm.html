@@ -223,17 +223,10 @@
 										<input type="text" class="form-control korean-font input-info" th:value="${member.mobileNumber}" style="background-color: white" th:name="mobileNumber">
 									</div>
 
-
 									<!-- 생년월일 -->
 									<div class="col-md-6">
 										<label class="form-label korean-font-bold">생년월일<span class="text-danger">*</span></label>
 										<input type="text" class="form-control flatpickr korean-font input-info" data-date-format="Y년 M d일" th:value="${member.birthday}" name="birthday">
-									</div>
-
-									<!-- 가입일자 -->
-									<div class="col-md-6">
-										<label class="form-label korean-font-bold">가입일자</label>
-										<input type="text" class="form-control flatpickr korean-font input-info" data-date-format="Y년 M d일" disabled="disabled" th:value="${member.joinDay}" name="joinDay">
 									</div>
 
 									<!-- 성별 -->
@@ -254,19 +247,6 @@
 											</div>
 										</div>
 									</div>
-
-									<!-- 회원등급 -->
-									<div class="col-md-6">
-										<label class="form-label korean-font-bold">회원등급</label>
-										<input type="text" class="form-control input-info" name="memberGrade" disabled th:value="${member.memberGrade}" style="background-color: white">
-									</div>
-
-									<!-- 주소 -->
-									<div class="col-12">
-										<label class="form-label korean-font-bold">주소</label>
-										<textarea class="form-control korean-font input-info" name="address" rows="2" spellcheck="false" th:value="${member.address}" style="background-color: white"></textarea>
-									</div>
-
 									<div class="text-end">
 										<button class="btn btn-primary mb-0 korean-font-bold">회원정보 변경</button>
 									</div>

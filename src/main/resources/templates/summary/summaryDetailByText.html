@@ -91,6 +91,10 @@
 		.keyword + .keyword {
 			margin-left: 5px; /* 버튼 사이의 간격 조절 */
 		}
+		.text{
+			white-space: pre-wrap;
+		}
+
 	</style>
 
 
@@ -225,6 +229,20 @@
 		}
 	});
 
+	document.addEventListener("DOMContentLoaded", function() {
+		var summaryContent = document.getElementById("summary-content").textContent;
+		var lines = summaryContent.split('\n'); // 개행 문자를 기준으로 텍스트를 분할
+
+		// 각 줄에 체크 기호 추가
+		var formattedText = lines.map(function(line) {
+			return "✔️ " + line;
+		});
+
+		// 변경된 내용으로 업데이트
+		document.getElementById("summary-content").textContent = formattedText.join('\n\n');
+	});
+
+
 </script>
 <body>
 
@@ -315,7 +333,7 @@ Steps START -->
 									<div class="card border">
 										<!-- Card header -->
 										<div class="card-header border-bottom d-sm-flex justify-content-between align-items-center">
-											<h5 class="mb-2 mb-sm-0 korean-font-bold" id="summary-title" th:text="${hackok.title}">제목</h5>
+											<h5 class="mb-2 mb-sm-0 korean-font-bold text" id="summary-title" th:text="${hackok.title}">제목</h5>
 											<h6 class="mb-2 mb-sm-0 korean-font-bold" id="summary-date" th:text="${hackok.date}">날짜</h6>
 										</div>
 
@@ -324,7 +342,7 @@ Steps START -->
 											<div class="row g-4">
 												<!-- Card number -->
 												<div class="col-12">
-													<h6 class="korean-font-bold" id="summary-content" th:text="${hackok.summaryText}">요약 내용</h6>
+													<h6 class="korean-font-bold text" id="summary-content" th:text="${hackok.summaryText}">요약 내용</h6>
 												</div>
 											</div>
 										</div>
@@ -355,7 +373,7 @@ Steps START -->
 
 										<!-- Card body -->
 										<div class="card-body text-center">
-											<p class="mb-3 korean-font-bold" id="request-content" th:text="${hackok.rawText}"> </p>
+											<p class="mb-3 korean-font-bold text" id="request-content" th:text="${hackok.rawText}" style="text-align: left"> </p>
 
 										</div>
 									</div>

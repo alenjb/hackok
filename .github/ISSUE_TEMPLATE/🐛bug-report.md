@@ -1,6 +1,6 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: "\U0001F41BBug report"
+about: 버그에 대한 이슈
 title: ''
 labels: ''
 assignees: ''

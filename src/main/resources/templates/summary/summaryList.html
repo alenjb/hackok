@@ -188,7 +188,7 @@
 
 									<!-- Card title and rating -->
 									<div class="col-sm-12 col-md-12 col-xl-12">
-										<h4 class="card-title mb-2"><a th:href="@{/view/{id}(id=${hackok.getId()})}" class="stretched-link" th:text="${hackok.title}">제목</a></h4>
+										<h4 class="card-title mb-2 korean-font-heavy"><a th:href="@{/view/{id}(id=${hackok.getId()})}" class="stretched-link" th:text="${hackok.title}">제목</a></h4>
 										<!-- Nav divider -->
 										<h6 th:text="${hackok.date}"> 2023 . 2 . 5</h6>
 									</div>
@@ -201,7 +201,7 @@
 								<div class="row">
 									<!-- List -->
 									<div class="col-12">
-										<a class="btn btn-primary-soft keyword" th:each="keyword : ${hackok.keywords}" th:text="${keyword}"></a>
+										<a class="btn btn-primary-soft keyword korean-font-heavy" th:each="keyword : ${hackok.keywords}" th:text="${keyword}"></a>
 									</div>
 								</div>
 							</div>
@@ -251,15 +251,15 @@
 						<nav class="d-flex justify-content-center" aria-label="navigation">
 							<ul class="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
 								<li class="page-item mb-0" th:if="${currentPageNum > 1}">
-									<a class="page-link" th:href="@{'/list?page=' + ${currentPageNum - 1}}" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a>
+									<a class="page-link korean-font-heavy" th:href="@{'/list?page=' + ${currentPageNum - 1}}" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a>
 								</li>
 								<!-- Thymeleaf 반복문 사용하여 페이지 번호 생성 -->
-								<li class="page-item mb-0" th:each="pageNum : ${#numbers.sequence(firstPageNum, lastPageNum)}" th:classappend="${pageNum == currentPageNum} ? 'active' : ''">
-									<a class="page-link" th:href="@{'/list?page=' + ${pageNum}}" th:text="${pageNum}" th:if="${pageNum != currentPageNum}">1</a>
-									<a class="page-link" th:href="@{'/list?page=' + ${currentPageNum}}" th:if="${pageNum == currentPageNum}" th:text="${pageNum}">1</a>
+								<li class="page-item mb-0 korean-font-heavy" th:each="pageNum : ${#numbers.sequence(firstPageNum, lastPageNum)}" th:classappend="${pageNum == currentPageNum} ? 'active' : ''">
+									<a class="page-link korean-font-heavy" th:href="@{'/list?page=' + ${pageNum}}" th:text="${pageNum}" th:if="${pageNum != currentPageNum}">1</a>
+									<a class="page-link korean-font-heavy" th:href="@{'/list?page=' + ${currentPageNum}}" th:if="${pageNum == currentPageNum}" th:text="${pageNum}">1</a>
 								</li>
 								<li class="page-item mb-0" th:if="${currentPageNum < totalPageNum}">
-									<a class="page-link" th:href="@{'/list?page=' + ${currentPageNum+1}}"><i class="fa-solid fa-angle-right"></i></a>
+									<a class="page-link korean-font-heavy" th:href="@{'/list?page=' + ${currentPageNum+1}}"><i class="fa-solid fa-angle-right"></i></a>
 								</li>
 							</ul>
 						</nav>

@@ -36,7 +36,6 @@ jobs:
     - name: make application.properties 파일 생성 
       run: |
         ## create application.properties 
-        mkdir ./src/main/resources
         cd ./src/main/resources
         # application.properties 파일 생성 
         touch ./application.properties
